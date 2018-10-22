@@ -15,7 +15,7 @@ class Game {
 
 		double p;					// Probability of a face card taken as input
 		int ** VMatrix;				// Calculated reward for the state corresponding to the action in actionMatrix
-		int ** actionMatrix;		// Action to be taken in a state 1 -> Hit 2 -> Stand 3 -> Double 4 -> Split
+		int ** actionMatrix;		// Action to be taken in a state represented as: 1 -> Hit 2 -> Stand 3 -> Double 4 -> Split
 		double *** transProb;		// Probability of transition between two states.
 
 		void initVMatrix();
