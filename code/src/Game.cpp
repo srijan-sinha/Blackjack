@@ -11,10 +11,11 @@ Game::Game (double pFace) {
 	initVMatrix();
 	initActionMatrix();
 	initTransProb();
+	initStateProb();
 
 }
 
-void initVMatrix () {
+void Game::initVMatrix () {
 
 	int ** tempVMatrix  = new int*[37];
 
@@ -32,7 +33,7 @@ void initVMatrix () {
 
 }
 
-void initActionMatrix () {
+void Game::initActionMatrix () {
 
 	int ** tempActionMatrix  = new int*[37];
 
@@ -50,7 +51,7 @@ void initActionMatrix () {
 
 }
 
-void initTransProb () {
+void Game::initTransProb () {
 	
 	double *** tempTransProb = new double*[37];
 
@@ -73,6 +74,24 @@ void initTransProb () {
 	}
 
 	transProb = tempTransProb;
+
+}
+
+void initStateProb () {
+
+	int ** tempStateProb  = new int*[10];
+
+	for (int = 0; i < 10; i++) {
+		tempStateProb[i] = new int[37];
+	}
+
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 37; j++) {
+			tempStateProb[i][j] = 0;
+		}
+	}
+
+	dealerStateProb = tempStateProb;
 
 }
 
@@ -285,7 +304,146 @@ double Game::calcTransProb (int stateInitial, int action, int stateFinal) {
 
 }
 
-int Game::calcStandingReward (int state) {
+double Game::calcStateProb (int stateHidden, int stateShown) {
+
+	double prob = 0;
+
+	if (stateHidden < 8) {
+		if (stateShown >= stateHidden - 1 && stateShown != 2*stateHidden - 1 && stateShown < stateHidden + 7)
+			prob = (1 - p)/9;
+		else if (stateShown == stateHidden + 7)
+			prob = p;
+		else if (stateShown == stateHidden + 15 || stateShown == stateHidden + 23)
+			prob = (1 - p)/9;
+		else
+			prob = 0;
+	}
+	else if (stateHidden == 8) {
+		if (stateShown >= stateHidden - 1 && stateShown != 2*stateHidden - 1 && stateShown < stateHidden + 7)
+			prob = (1 - p)/9;
+		else if (stateShown == 31)
+			prob = p;
+		else if (stateShown == 33)
+			prob = (1 - p)/9;
+		else
+			prob = 0;
+	}
+	else if (stateHidden == 9) {
+		if (stateShown >= 15 && stateShown <= 22)
+			prob = (1 - p)/9;
+		else if (stateShown == 32)
+			prob = (1 - p)/9;
+		else if (satteShown == 33)
+			prob = p;
+		else
+			prob = 0;
+	}
+
+	return prob;
+
+}
+
+double Game::calcFinalState (int dealerStateInitial, int dealerStateFinal) {
+
+	double prob = 0;
+
+	if (valueHand(dealerStateInitial) >= 17) {
+		if(dealerStateInitial == dealerStateFinal)
+			prob = 1;
+		else
+			prob = 0;
+	}
+	else {
+		if(valueHand(dealerStateFinal) < 17)
+			prob = 0;
+		else {
+
+		}
+	}
+
+}
+
+double Game::calcFinalScore (int dealerStateInitial, int handValue) {
+
+	double prob = 0;
+
+	if (handValue < 17)
+		prob = 0;
+	else if (handValue <= 19) {
+		prob += calcFinalState (dealerStateInitial, handValue - 5);
+		prob += calcFinalState (dealerStateInitial, handValue + 2);
+	}
+	else if (handValue == 20) {
+		prob += calcFinalState (dealerStateInitial, 34);
+		prob += calcFinalState (dealerStateInitial, 22);
+	}
+	else if (handValue == 21) {
+		prob += calcFinalState (dealerStateInitial, 33);
+		prob += calcFinalState (dealerStateInitial, 35);
+	}
+	
+	return prob;
+
+}
+
+double Game::probScore (int dealerStateHidden, int handValue) {
+
+	double prob = 0;
+
+	for(int i = 0; i < 37; i++) {
+		prob += calcStateProb (dealerStateHidden, i) * calcFinalScore (i, handValue);
+	}
+
+	return prob;
+
+}
+
+int Game::calcStandingReward (int statePlayer, int stateDealer) {
+
+	double reward = 0;
+
+	int playerHand = valueHand(statePlayer);
+	
+	if (playerHand != 21) {
+	
+		for (int i = playerHand + 1; i <= 21; i++) {
+			reward -= probScore(stateDealer, i);
+		}
+
+		for(int i = 0; i < playerHand; i++) {
+			reward += probScore(stateDealer, i);
+		}
+	
+	}
+
+	else {
+
+		if (statePlayer == 33) {
+
+		}
+		else {
+			
+		}
+
+	}
+}
+
+int Game::valueHand (int state) {
+
+	if (state <= 14)
+		return state;
+	else if (state <= 22)
+		return state - 2;
+	else if (state <= 31)
+		return 2 * (state - 21);
+	else if (state == 32)
+		return 12;
+	else if (state == 33)
+		return 21;
+	else if (state <= 35)
+		return state - 14;
+	else
+		return 22;
 
 }
 
