@@ -19,11 +19,11 @@ void Game::initVMatrix () {
 
 	int ** tempVMatrix  = new int*[37];
 
-	for (int = 0; i < 37; i++) {
+	for (int = 0; i < 38; i++) {
 		tempVMatrix[i] = new int[10];
 	}
 
-	for (int i = 0; i < 37; i++) {
+	for (int i = 0; i < 38; i++) {
 		for(int j = 0; j < 10; j++) {
 			tempVMatrix[i][j] = std::numeric_limits<int>::min();
 		}
@@ -35,13 +35,13 @@ void Game::initVMatrix () {
 
 void Game::initActionMatrix () {
 
-	int ** tempActionMatrix  = new int*[37];
+	int ** tempActionMatrix  = new int*[38];
 
-	for (int = 0; i < 37; i++) {
+	for (int = 0; i < 38; i++) {
 		tempActionMatrix[i] = new int[10];
 	}
 
-	for (int i = 0; i < 37; i++) {
+	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
 			tempActionMatrix[i][j] = 0;
 		}
@@ -53,21 +53,21 @@ void Game::initActionMatrix () {
 
 void Game::initTransProb () {
 	
-	double *** tempTransProb = new double*[37];
+	double *** tempTransProb = new double*[38];
 
-	for (int i = 0; i < 37; i++) {
+	for (int i = 0; i < 38; i++) {
 		tempTransProb[i] = new double**[10];
 	}
 
-	for (int i = 0; i < 37; i++) {
+	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
-			tempTransProb[i][j] = new double*[37];
+			tempTransProb[i][j] = new double*[38];
 		}
 	}
 
-	for (int i = 0; i < 37; i++) {
+	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
-			for (int k = 0; k < 37; k++) {
+			for (int k = 0; k < 38; k++) {
 				tempTransProb[i][j][k] = 0;
 			}
 		}
@@ -82,11 +82,11 @@ void initStateProb () {
 	int ** tempStateProb  = new int*[10];
 
 	for (int = 0; i < 10; i++) {
-		tempStateProb[i] = new int[37];
+		tempStateProb[i] = new int[38];
 	}
 
 	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 37; j++) {
+		for (int j = 0; j < 38; j++) {
 			tempStateProb[i][j] = 0;
 		}
 	}
@@ -372,16 +372,22 @@ double Game::calcFinalScore (int dealerStateInitial, int handValue) { //does not
 	else if (handValue <= 19) {
 		prob += calcFinalState (dealerStateInitial, handValue - 5);
 		prob += calcFinalState (dealerStateInitial, handValue + 2);
+		
+		if (handValue == 18)
+			prob += calcFinalState (dealerStateInitial, 30)
+	
 	}
 	else if (handValue == 20) { // not right as 9 4 7
 		prob += calcFinalState (dealerStateInitial, 34);
 		prob += calcFinalState (dealerStateInitial, 22);
+		prob += calcFinalState (dealerStateInitial, 31);
 	}
 	else if (handValue == 21) {
 		prob += calcFinalState (dealerStateInitial, 33);
 		prob += calcFinalState (dealerStateInitial, 35);
+		prob += calcFinalState (dealerStateInitial, 37);
 	}
-	else if (handValue == 2) {
+	else if (handValue == 22) {
 		prob += calcFinalState (dealerStateInitial, 36);
 	}
 	
@@ -393,7 +399,7 @@ double Game::probScore (int dealerStateHidden, int handValue) {
 
 	double prob = 0;
 
-	for(int i = 0; i < 37; i++) {
+	for(int i = 0; i < 38; i++) {
 		prob += calcStateProb (dealerStateHidden, i) * calcFinalScore (i, handValue);
 	}
 
