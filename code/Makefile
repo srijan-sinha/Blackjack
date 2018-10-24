@@ -6,10 +6,10 @@ ODIR = ./build
 SDIR = ./src
 EDIR = ./bin
 
-_DEPS = Markov.h
+_DEPS = Game.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = Markov.o main.o
+_OBJ = Game.o main.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o : $(SDIR)/%.o $(DEPS)
