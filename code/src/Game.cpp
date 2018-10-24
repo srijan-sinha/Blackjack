@@ -19,7 +19,7 @@ void Game::initVMatrix () {
 
 	int ** tempVMatrix  = new int*[38];
 
-	for (int = 0; i < 38; i++) {
+	for (int i= 0; i < 38; i++) {
 		tempVMatrix[i] = new int[10];
 	}
 
@@ -37,7 +37,7 @@ void Game::initActionMatrix () {
 
 	int ** tempActionMatrix  = new int*[38];
 
-	for (int = 0; i < 38; i++) {
+	for (int i= 0; i < 38; i++) {
 		tempActionMatrix[i] = new int[10];
 	}
 
@@ -77,12 +77,12 @@ void Game::initTransProb () {
 
 }
 
-void initStateProb () {
+void Game::initStateProb () {
 
-	int ** tempStateProb  = new int*[10];
+	double ** tempStateProb  = new double*[10];
 
-	for (int = 0; i < 10; i++) {
-		tempStateProb[i] = new int[38];
+	for (int i= 0; i < 10; i++) {
+		tempStateProb[i] = new double[38];
 	}
 
 	for (int i = 0; i < 10; i++) {
@@ -233,7 +233,7 @@ double Game::calcTransProb (int stateInitial, int action, int stateFinal) {
 			else if (stateFinal == 34 && stateInitial == 22)
 				prob = p;
 		}
-		else if (initialState == 23) {
+		else if (stateInitial == 23) {
 			if (stateFinal == 10)
 				prob = (1 - p)/9;
 			else if (stateFinal >= 1 && stateFinal <= 8)
@@ -244,13 +244,13 @@ double Game::calcTransProb (int stateInitial, int action, int stateFinal) {
 		else if (stateInitial >= 24 && stateInitial <= 30) {
 			calcTransProb (2*(stateInitial - 21) - 5, action, stateFinal);
 		}
-		else if (initialState == 31) {
+		else if (stateInitial == 31) {
 			if (stateFinal == 35)
 				prob = (1 - p)/9;
 			else if (stateFinal == 36)
 				prob = 8*(1 - p)/9 + p;
 		}
-		else if (initialState == 32) {
+		else if (stateInitial == 32) {
 			if (stateFinal >= 15 && stateFinal <= 22)
 				prob = (1 - p)/9;
 			else if (stateFinal == 37)
@@ -258,7 +258,7 @@ double Game::calcTransProb (int stateInitial, int action, int stateFinal) {
 			else if (stateFinal == 7)
 				prob = p;
 		}
-		else if (initialState == 33) {
+		else if (stateInitial == 33) {
 			if (stateFinal == 35)
 				prob = p;
 			else if (stateFinal >= 7 && stateFinal <= 14)
@@ -266,18 +266,18 @@ double Game::calcTransProb (int stateInitial, int action, int stateFinal) {
 			else if (stateFinal == 34)
 				prob = (1 - p)/9;
 		}
-		else if (initialState == 34) {
+		else if (stateInitial == 34) {
 			if (stateFinal == 35)
 				prob = (1 - p)/9;
 			else if (stateFinal == 36)
 				prob = 8*(1 - p)/9 + p;
 		}
-		else if (initialState == 35) {
+		else if (stateInitial == 35) {
 			if (stateFinal == 36)
 				prob = 1;
 		}
 		else if (stateInitial == 36) {
-			if (stateFinal == stateInital)
+			if (stateFinal == stateInitial)
 				prob = 1;
 		}
 		else if (stateInitial == 37) {
@@ -324,7 +324,7 @@ double Game::calcStateProb (int stateHidden, int stateShown) {
 			prob = (1 - p)/9;
 		else if (stateShown == 32) // pair
 			prob = (1 - p)/9;
-		else if (satteShown == 33) // blackjack
+		else if (stateShown == 33) // blackjack
 			prob = p;
 		else
 			prob = 0;
@@ -365,7 +365,7 @@ double Game::calcFinalScore (int dealerStateInitial, int handValue) { //does not
 		prob += calcFinalState (dealerStateInitial, handValue + 2);
 		
 		if (handValue == 18)
-			prob += calcFinalState (dealerStateInitial, 30)
+			prob += calcFinalState (dealerStateInitial, 30);
 	
 	}
 	else if (handValue == 20) { // not right as 9 4 7
@@ -426,6 +426,8 @@ int Game::calcStandingReward (int statePlayer, int stateDealer) {
 		}
 
 	}
+	//trash talk
+	return 0;
 }
 
 int Game::valueHand (int state) {
