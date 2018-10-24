@@ -53,6 +53,7 @@ states
 34		->	20
 35		->	21
 36		-> 	Busted	
+37		-> A10 Non Blackjack
 */	
 
 /**
