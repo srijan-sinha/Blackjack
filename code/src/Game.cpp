@@ -358,8 +358,6 @@ double Game::calcFinalState (int dealerStateInitial, int dealerStateFinal) {
 			prob = 0;
 		else {
 			//dealerStateInitial is less than 17 
-
-
 		}
 	}
 
@@ -383,6 +381,9 @@ double Game::calcFinalScore (int dealerStateInitial, int handValue) { //does not
 	else if (handValue == 21) {
 		prob += calcFinalState (dealerStateInitial, 33);
 		prob += calcFinalState (dealerStateInitial, 35);
+	}
+	else if (handValue == 2) {
+		prob += calcFinalState (dealerStateInitial, 36);
 	}
 	
 	return prob;
@@ -425,7 +426,7 @@ int Game::calcStandingReward (int statePlayer, int stateDealer) {
 
 		}
 		else {
-			
+
 		}
 
 	}
