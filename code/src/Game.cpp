@@ -17,7 +17,7 @@ Game::Game (double pFace) {
 
 void Game::initVMatrix () {
 
-	int ** tempVMatrix  = new int*[37];
+	int ** tempVMatrix  = new int*[38];
 
 	for (int = 0; i < 38; i++) {
 		tempVMatrix[i] = new int[10];
@@ -53,21 +53,21 @@ void Game::initActionMatrix () {
 
 void Game::initTransProb () {
 	
-	double *** tempTransProb = new double*[38];
+	double *** tempTransProb = new double**[38];
 
 	for (int i = 0; i < 38; i++) {
-		tempTransProb[i] = new double**[10];
+		tempTransProb[i] = new double*[10];
 	}
 
 	for (int i = 0; i < 38; i++) {
-		for (int j = 0; j < 10; j++) {
-			tempTransProb[i][j] = new double*[38];
+		for (int j = 0; j < 38; j++) {
+			tempTransProb[i][j] = new double[15];
 		}
 	}
 
 	for (int i = 0; i < 38; i++) {
-		for (int j = 0; j < 10; j++) {
-			for (int k = 0; k < 38; k++) {
+		for (int j = 0; j < 38; j++) {
+			for (int k = 0; k < 15; k++) {
 				tempTransProb[i][j][k] = 0;
 			}
 		}
@@ -98,6 +98,7 @@ void initStateProb () {
 double Game::calcTransProb (int stateInitial, int action, int stateFinal) {
 
 	double prob = 0;
+
 	if (action == 2)
 		if (stateInitial == stateFinal)
 			prob = 1;
@@ -188,119 +189,109 @@ double Game::calcTransProb (int stateInitial, int action, int stateFinal) {
 		}	
 	}
 	else {
-		if (initialState == 0) {
+		if (stateInitial >= 0 && stateInitial <= 5) {
+
+			if (stateFinal >= stateInitial + 2 && stateFinal <= stateInitial + 9)
+				prob =  (1 - p)/9;
+			else if (stateFinal == stateInitial + 10)
+				prob = p;
+
+			if (stateInitial != 5)
+				if (stateFinal == stateInitial + 15)
+					prob = (1 - p)/9;
+			else
+				if (stateFinal == 37)
+					prob = (1 - p)/9;
+		}
+		else if (stateInitial >= 6 && stateInitial <= 14) {
+			if (stateFinal >= stateInitial + 1 && stateFinal <= stateInitial + 9)
+				if (stateFinal <= 14) 
+					prob = (1 - p)/9;
+			else if (stateFinal == 34)
+				prob = (1 - p)/9;
+			else if (stateFinal == 35)
+				if (stateInitial == 6)
+					prob = p;
+				else
+					prob = (1 - p)/9;
+			else if (stateFinal == 36) {
+				if (stateInitial == 7)
+					prob = p;
+				else
+					prob = p + (9 - (16 - stateInitial))*(1 - p)/9;
+			}
 
 		}
-		else if (initialState == 1) {
-			
-		}
-		else if (initialState == 2) {
-			
-		}
-		else if (initialState == 3) {
-			
-		}
-		else if (initialState == 4) {
-			
-		}
-		else if (initialState == 5) {
-			
-		}
-		else if (initialState == 6) {
-			
-		}
-		else if (initialState == 7) {
-			
-		}
-		else if (initialState == 8) {
-			
-		}
-		else if (initialState == 9) {
-			
-		}
-		else if (initialState == 10) {
-			
-		}
-		else if (initialState == 11) {
-			
-		}
-		else if (initialState == 12) {
-			
-		}
-		else if (initialState == 13) {
-			
-		}
-		else if (initialState == 14) {
-			
-		}
-		else if (initialState == 15) {
-			
-		}
-		else if (initialState == 16) {
-			
-		}
-		else if (initialState == 17) {
-			
-		}
-		else if (initialState == 18) {
-			
-		}
-		else if (initialState == 19) {
-			
-		}
-		else if (initialState == 20) {
-			
-		}
-		else if (initialState == 21) {
-			
-		}
-		else if (initialState == 22) {
-			
+		else if (stateInitial >= 15 && stateInitial <= 22) {
+			if (stateFinal >= stateInitial + 1 && (stateFinal <= 22 || stateFinal == 37))
+				prob = (1 - p)/9;
+			else if (stateFinal >= 7 && stateFinal <=stateInitial - 8)
+				prob = (1 - p)/9;
+			else if (stateFinal == stateInitial - 7)
+				if(stateInitial != 22)
+					prob = p;
+			else if (stateFinal == 34 && stateInitial == 22)
+				prob = p;
 		}
 		else if (initialState == 23) {
-			
+			if (stateFinal == 10)
+				prob = (1 - p)/9;
+			else if (stateFinal >= 1 && stateFinal <= 8)
+				prob = (1 - p)/9;
+			else if (stateFinal == 9)
+				prob = p;
 		}
-		else if (initialState == 24) {
-			
-		}
-		else if (initialState == 25) {
-			
-		}
-		else if (initialState == 26) {
-			
-		}
-		else if (initialState == 27) {
-			
-		}
-		else if (initialState == 28) {
-			
-		}
-		else if (initialState == 29) {
-			
-		}
-		else if (initialState == 30) {
-			
+		else if (stateInitial >= 24 && stateInitial <= 30) {
+			calcTransProb (2*(stateInitial - 21) - 5, action, stateFinal);
 		}
 		else if (initialState == 31) {
-			
+			if (stateFinal == 35)
+				prob = (1 - p)/9;
+			else if (stateFinal == 36)
+				prob = 8*(1 - p)/9 + p;
 		}
 		else if (initialState == 32) {
-			
+			if (stateFinal >= 15 && stateFinal <= 22)
+				prob = (1 - p)/9;
+			else if (stateFinal == 37)
+				prob = (1 - p)/9;
+			else if (stateFinal == 7)
+				prob = p;
 		}
 		else if (initialState == 33) {
-			
+			if (stateFinal == 35)
+				prob = p;
+			else if (stateFinal >= 7 && stateFinal <= 14)
+				prob = (1 - p)/9;
+			else if (stateFinal == 34)
+				prob = (1 - p)/9;
 		}
 		else if (initialState == 34) {
-			
+			if (stateFinal == 35)
+				prob = (1 - p)/9;
+			else if (stateFinal == 36)
+				prob = 8*(1 - p)/9 + p;
 		}
 		else if (initialState == 35) {
-			
+			if (stateFinal == 36)
+				prob = 1;
 		}
-		else if (initialState == 36) {
-			
+		else if (stateInitial == 36) {
+			if (stateFinal == stateInital)
+				prob = 1;
+		}
+		else if (stateInitial == 37) {
+			if (stateFinal == 35)
+				prob = p;
+			else if (stateFinal >= 7 && stateFinal <= 14)
+				prob = (1 - p)/9;
+			else if (stateFinal == 34)
+				prob = (1 - p)/9;
 		}
 		
 	}
+
+	return prob;
 
 }
 
@@ -453,6 +444,40 @@ int Game::valueHand (int state) {
 		return state - 14;
 	else
 		return 22;
+
+}
+
+void Game::fillTable () {
+
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 38; j++) {
+			transProb[i][j][0] = calcTransProb (i, 1, j);
+		}
+	}
+
+}
+
+void Game::updateTable () {
+
+	for (int step = 1; step < 14; step++) {
+		for (int i = 0; i < 38; i++) {
+			for (int j = 0; j < 38; j++) {
+				for (int k = 0; k < 38; k++) {
+					if(valueHand(k) < 17) {
+						transProb[i][j][step] += transProb[i][k][step-1] * calcTransProb(k, 1, j);
+					}
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 38; j++) {
+			for (int k = 0; k < 14; k++) {
+				transProb[i][j][14] += transProb[i][j][k];
+			}
+		}
+	}
 
 }
 

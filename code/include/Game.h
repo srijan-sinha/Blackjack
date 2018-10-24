@@ -26,10 +26,12 @@ class Game {
 		double calcTransProb(int stateInitial, int action, int stateFinal);			// Transition probability from one state to another based on the action carried out.
 		double calcStateProb(int stateHidden, int stateShown);						// Probability that dealer gets the mentioned full state (both cards known) from the partial state (only one card known).
 		double calcFinalState(int dealerStateInitial, int dealerStateFinal);		// Probability that after dealer stands he reaches the dealerStateFinal from dealerStateInitial (both cards known).
-		double calcFinalScore (int dealerStateInitial, int handValue);				// Probability that dealer starting in given fully know state ends up with given hand value.
-		double probScore (int dealerStateHidden, int handValue);					// Probability that dealer starting in given partially hidden state ends up with given hand value.
+		double calcFinalScore(int dealerStateInitial, int handValue);				// Probability that dealer starting in given fully know state ends up with given hand value.
+		double probScore(int dealerStateHidden, int handValue);					// Probability that dealer starting in given partially hidden state ends up with given hand value.
 		int calcStandingReward(int state);											// Expected reward obtained by the player if he stands in a given stand.
 		int valueHand(int state);													// Value of the current hand.
+		void fillTable();
+		void updateTable();
 
 	public:
 
