@@ -16,7 +16,7 @@ $(ODIR)/%.o : $(SDIR)/%.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(EDIR)/main : $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -o $@ $^ $(CFLAGS) -g
 
 .PHONY: clean
 

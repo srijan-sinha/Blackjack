@@ -56,7 +56,7 @@ void Game::initTransProb () {
 	double *** tempTransProb = new double**[38];
 
 	for (int i = 0; i < 38; i++) {
-		tempTransProb[i] = new double*[10];
+		tempTransProb[i] = new double*[38];
 	}
 
 	for (int i = 0; i < 38; i++) {
@@ -489,4 +489,17 @@ void Game::fillVMatrix () {
 
 void Game::fillTransProb () {
 
+}
+
+void Game::printTable(){
+	for (int k = 0; k < 15; k++) {
+		for (int i = 0; i < 38; i++) {
+			for (int j = 0; j < 38; j++) {
+				cout<< transProb[i][j][k] << "\t";
+			}
+			cout << endl;
+		}
+		cout << k << " ---------------------------- " <<endl;
+	}
+	cout << "printed"<<endl;
 }

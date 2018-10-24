@@ -1,2 +1,2 @@
 cd code/bin
-./main $1
+./main

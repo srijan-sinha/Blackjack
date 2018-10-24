@@ -11,7 +11,7 @@ using namespace std;
 
 class Game {
 	
-	private:
+	public:
 
 		double p;					// Probability of a face card taken as input.
 		int ** VMatrix;				// Calculated reward for the state corresponding to the action in actionMatrix.
@@ -32,8 +32,9 @@ class Game {
 		int valueHand(int state);													// Value of the current hand.
 		void fillTable();
 		void updateTable();
+		void printTable();
 
-	public:
+	// public:
 
 		Game();
 		Game(double pFace);
