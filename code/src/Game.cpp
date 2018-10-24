@@ -357,13 +357,15 @@ double Game::calcFinalState (int dealerStateInitial, int dealerStateFinal) {
 		if(valueHand(dealerStateFinal) < 17)
 			prob = 0;
 		else {
+			//dealerStateInitial is less than 17 
+
 
 		}
 	}
 
 }
 
-double Game::calcFinalScore (int dealerStateInitial, int handValue) {
+double Game::calcFinalScore (int dealerStateInitial, int handValue) { //does not quite feel good as we can not represent dealer final state by the same state denotion system
 
 	double prob = 0;
 
@@ -373,7 +375,7 @@ double Game::calcFinalScore (int dealerStateInitial, int handValue) {
 		prob += calcFinalState (dealerStateInitial, handValue - 5);
 		prob += calcFinalState (dealerStateInitial, handValue + 2);
 	}
-	else if (handValue == 20) {
+	else if (handValue == 20) { // not right as 9 4 7
 		prob += calcFinalState (dealerStateInitial, 34);
 		prob += calcFinalState (dealerStateInitial, 22);
 	}
