@@ -308,32 +308,32 @@ double Game::calcStateProb (int stateHidden, int stateShown) {
 
 	double prob = 0;
 
-	if (stateHidden < 8) {
-		if (stateShown >= stateHidden - 1 && stateShown != 2*stateHidden - 1 && stateShown < stateHidden + 7)
+	if (stateHidden < 8) { // up card 2-9
+		if (stateShown >= stateHidden - 1 && stateShown != 2*stateHidden - 1 && stateShown < stateHidden + 7) // 2-9 and not the same card again and less than 9
 			prob = (1 - p)/9;
-		else if (stateShown == stateHidden + 7)
+		else if (stateShown == stateHidden + 7) //face card
 			prob = p;
-		else if (stateShown == stateHidden + 15 || stateShown == stateHidden + 23)
+		else if (stateShown == stateHidden + 15 || stateShown == stateHidden + 23) // 15 for ace and 23 for pair
 			prob = (1 - p)/9;
 		else
 			prob = 0;
 	}
-	else if (stateHidden == 8) {
+	else if (stateHidden == 8) { // up card 10
 		if (stateShown >= stateHidden - 1 && stateShown != 2*stateHidden - 1 && stateShown < stateHidden + 7)
 			prob = (1 - p)/9;
-		else if (stateShown == 31)
+		else if (stateShown == 31) // pair
 			prob = p;
-		else if (stateShown == 33)
+		else if (stateShown == 33) // blackjack
 			prob = (1 - p)/9;
 		else
 			prob = 0;
 	}
-	else if (stateHidden == 9) {
-		if (stateShown >= 15 && stateShown <= 22)
+	else if (stateHidden == 9) { // ace
+		if (stateShown >= 15 && stateShown <= 22) // 2-9
 			prob = (1 - p)/9;
-		else if (stateShown == 32)
+		else if (stateShown == 32) // pair
 			prob = (1 - p)/9;
-		else if (satteShown == 33)
+		else if (satteShown == 33) // blackjack
 			prob = p;
 		else
 			prob = 0;
@@ -357,13 +357,13 @@ double Game::calcFinalState (int dealerStateInitial, int dealerStateFinal) {
 		if(valueHand(dealerStateFinal) < 17)
 			prob = 0;
 		else {
-			
+			//dealerStateInitial is less than 17 
 		}
 	}
 
 }
 
-double Game::calcFinalScore (int dealerStateInitial, int handValue) {
+double Game::calcFinalScore (int dealerStateInitial, int handValue) { //does not quite feel good as we can not represent dealer final state by the same state denotion system
 
 	double prob = 0;
 
@@ -373,7 +373,7 @@ double Game::calcFinalScore (int dealerStateInitial, int handValue) {
 		prob += calcFinalState (dealerStateInitial, handValue - 5);
 		prob += calcFinalState (dealerStateInitial, handValue + 2);
 	}
-	else if (handValue == 20) {
+	else if (handValue == 20) { // not right as 9 4 7
 		prob += calcFinalState (dealerStateInitial, 34);
 		prob += calcFinalState (dealerStateInitial, 22);
 	}
