@@ -53,15 +53,23 @@ void Game::initActionMatrix () {
 
 void Game::initTransProb () {
 	
-	double ** tempTransProb = new double*[38];
+	double *** tempTransProb = new double**[38];
 
 	for (int i = 0; i < 38; i++) {
-		tempTransProb[i] = new double[10];
+		tempTransProb[i] = new double*[10];
 	}
 
 	for (int i = 0; i < 38; i++) {
-		for (int k = 0; k < 38; k++) {
-			tempTransProb[i][j][k] = 0;
+		for (int j = 0; j < 38; j++) {
+			tempTransProb[i][j] = new double[15];
+		}
+	}
+
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 38; j++) {
+			for (int k = 0; k < 15; k++) {
+				tempTransProb[i][j][k] = 0;
+			}
 		}
 	}
 
@@ -436,6 +444,40 @@ int Game::valueHand (int state) {
 		return state - 14;
 	else
 		return 22;
+
+}
+
+void Game::fillTable () {
+
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 38; j++) {
+			transProb[i][j][0] = calcTransProb (i, 1, j);
+		}
+	}
+
+}
+
+void Game::updateTable () {
+
+	for (int step = 1; step < 14; step++) {
+		for (int i = 0; i < 38; i++) {
+			for (int j = 0; j < 38; j++) {
+				for (int k = 0; k < 38; k++) {
+					if(valueHand(k) < 17) {
+						transProb[i][j][step] += transProb[i][k][step-1] * calcTransProb(k, 1, j);
+					}
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 38; j++) {
+			for (int k = 0; k < 14; k++) {
+				transProb[i][j][14] += transProb[i][j][k];
+			}
+		}
+	}
 
 }
 
