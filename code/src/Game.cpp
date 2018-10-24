@@ -378,6 +378,7 @@ double Game::calcFinalScore (int dealerStateInitial, int handValue) { //does not
 	else if (handValue == 20) { // not right as 9 4 7
 		prob += calcFinalState (dealerStateInitial, 34);
 		prob += calcFinalState (dealerStateInitial, 22);
+		prob += calcFinalState (dealerStateInitial, 31);
 	}
 	else if (handValue == 21) {
 		prob += calcFinalState (dealerStateInitial, 33);
