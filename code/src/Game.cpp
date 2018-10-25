@@ -182,9 +182,9 @@ double Game::calcTransProb (int stateInitial, int action, int stateFinal) {
 				prob = 0;
 		}
 		else if (stateInitial == 32) {
-			if ((stateFinal > 7 && stateFinal < 20) || stateFinal == 34 || stateFinal == 32)
+			if ((stateFinal > 14 && stateFinal < 23) || stateFinal == 34)
 				prob = (1 - p)/9;
-			else if (stateFinal == 35)
+			else if (stateFinal == 37)
 				prob = p;
 			else
 				prob = 0;

@@ -13,10 +13,10 @@ int main(int argc, char** argv)
     mgame->fillTable();
     mgame->updateTable();
     // mgame->printTable();
-    // mgame->fillVMatrix();
-    // mgame->printAction();
-    // mgame->valueIteration(10);
-    // mgame->printAction();
+    mgame->fillVMatrix();
+    mgame->printAction();
+    mgame->valueIteration(10);
+    mgame->printAction();
     // cout << "5 " << mgame->calcStandingReward(0, 0) << endl;
 	// cout << "6 " << mgame->calcStandingReward(1, 0) << endl;
  //    cout << "7 " << mgame->calcStandingReward(2, 0) << endl;
@@ -43,16 +43,21 @@ int main(int argc, char** argv)
  	// cout << mgame->calcFinalState(7,13) << endl;
     
 
-    for (int j = 33; j < 38; j++) {
-    	double sum = 0;
-	    for (int i = 0; i < 38; i++) {
-	    	cout << "From shown state of dealer: "<< j << " After hit state of dealer: " << i << " prob is: " << mgame->transProb[j][i][1] << endl;
-	    	sum += mgame->transProb[j][i][1];
-	    }
 
-	    cout << endl << "State Num: " << j << " Sum: " << sum << endl;
-	    cout << endl;
-	}
+
+ //    for (int j = 0; j < 38; j++) {
+ //    	double sum = 0;
+	//     for (int i = 0; i < 38; i++) {
+	//     	cout << "From shown state of dealer: "<< j << " After hit state of dealer: " << i << " prob is: " << mgame->transProb[j][i][1] << endl;
+	//     	sum += mgame->transProb[j][i][15];
+	//     }
+
+	//     cout << endl << "State Num: " << j << " Sum: " << sum << endl;
+	//     cout << endl;
+	// }
+
+
+
 
 	// cout << mgame->calcTransProb(24, 1 ,3) << endl;
 
