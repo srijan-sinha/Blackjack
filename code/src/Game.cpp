@@ -17,15 +17,15 @@ Game::Game (double pFace) {
 
 void Game::initVMatrix () {
 
-	int ** tempVMatrix  = new int*[38];
+	double ** tempVMatrix  = new double*[38];
 
 	for (int i= 0; i < 38; i++) {
-		tempVMatrix[i] = new int[10];
+		tempVMatrix[i] = new double[10];
 	}
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
-			tempVMatrix[i][j] = std::numeric_limits<int>::min();
+			tempVMatrix[i][j] = std::numeric_limits<double>::min();
 		}
 	}
 
@@ -563,6 +563,15 @@ void Game::fillVMatrix () {
 		}
 	}
 
+	cout << endl << endl << "***********************************************************" << endl << endl << endl << endl << endl;
+
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 10; j++) {
+			cout << VMatrix[i][j] << " \t";
+		}
+		cout << endl;
+	}
+
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
 			actionMatrix[i][j] = 2;
@@ -579,19 +588,19 @@ bool checkGreater(double d1, double d2) {
 
 void Game::updateVMatrix () {
 
-	int ** tempVMatrix = new int*[38];
+	double ** tempVMatrix = new double*[38];
 	double rewardSplit = 0;
 	double rewardStand = 0;
 	double rewardHit = 0;
 	double rewardDouble = 0;
 
 	for (int i= 0; i < 38; i++) {
-		tempVMatrix[i] = new int[10];
+		tempVMatrix[i] = new double[10];
 	}
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
-			tempVMatrix[i][j] = std::numeric_limits<int>::min();
+			tempVMatrix[i][j] = std::numeric_limits<double>::min();
 		}
 	}
 
@@ -665,16 +674,16 @@ void Game::valueIteration (int times) {
 
 	fillVMatrix();
 
-	int ** tempVMatrix = new int*[38];
+	double ** tempVMatrix = new double*[38];
 	double reward = 0;
 
 	for (int i= 0; i < 38; i++) {
-		tempVMatrix[i] = new int[10];
+		tempVMatrix[i] = new double[10];
 	}
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
-			tempVMatrix[i][j] = std::numeric_limits<int>::min();
+			tempVMatrix[i][j] = std::numeric_limits<double>::min();
 		}
 	}
 
@@ -741,11 +750,12 @@ void Game::printAction () {
 		else if (i == 32) {
 			cout << "AA" << "\t";
 		}
+		cout << "\t";
 		
-		cout << numToAction(actionMatrix[i][0]);
+		cout << numToAction(actionMatrix[i][0]) /**<< ": " << VMatrix[i][0] << "\t\t"*/;
 		
 		for (int j = 1; j < 10; j++) {
-			cout << " " << numToAction(actionMatrix[i][j]);
+			cout << " " << numToAction(actionMatrix[i][j]) /**<< ": " << VMatrix[i][j] << "\t\t"*/;
 		}
 		cout << endl;
 	}
