@@ -32,17 +32,17 @@ class Game {
 		int valueHand(int state);												//nocheck			// Value of the current hand.
 		void fillTable();														//nocheck			// 
 		void updateTable();														//nocheck			//
-		void printTable();														//nocheck			//
+		void printTable();														//checked			//
 
 	// public:
 
 		Game();
 		Game(double pFace);
-		void fillVMatrix();
-		void updateVMatrix();
-		void valueIteration(int times);
-		string numToAction(int action);
-		void printAction();
+		void fillVMatrix();														//nocheck
+		void updateVMatrix();													//nocheck
+		void valueIteration(int times);											//nocheck
+		string numToAction(int action);											//nocheck
+		void printAction();														//nocheck
 
 };
 
