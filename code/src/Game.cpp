@@ -463,6 +463,8 @@ double Game::calcStandingReward (int statePlayer, int stateDealer) {
 			// cout << "Reward update "<< i << ": " << reward << endl;
 		}
 
+		reward += probScore(stateDealer, 22);
+
 	}
 	else  {
 
@@ -776,10 +778,10 @@ void Game::printAction () {
 		}
 		cout << "\t";
 		
-		cout << numToAction(actionMatrix[i][0]) << ": " << VMatrix[i][0] << "\t\t";
+		cout << numToAction(actionMatrix[i][0])/** << ": " << VMatrix[i][0] << "\t\t"*/;
 		
 		for (int j = 1; j < 10; j++) {
-			cout << " " << numToAction(actionMatrix[i][j]) << ": " << VMatrix[i][j] << "\t\t";
+			cout << " " << numToAction(actionMatrix[i][j])/** << ": " << VMatrix[i][j] << "\t\t"*/;
 		}
 		cout << endl;
 	}

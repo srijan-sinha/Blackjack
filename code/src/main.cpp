@@ -72,12 +72,12 @@ int main(int argc, char** argv)
     // }
 /********************
 */
-	cout << mgame-> calcStandingReward(14, 5);
-	if (0.0 - std::numeric_limits<int>::min() > 0.00001)
-		cout << "yo" << endl;
-	else {
+	cout << mgame->calcStandingReward(0, 0) << endl;
+	// if (0.0 - std::numeric_limits<int>::min() > 0.00001)
+	// 	cout << "yo" << endl;
+	// else {
 
-	}
+	// }
 
 // ******************/
 
