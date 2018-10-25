@@ -43,7 +43,7 @@ int main(int argc, char** argv)
  	// cout << mgame->calcFinalState(7,13) << endl;
     
 
-    for (int j = 0; j < 10; j++) {
+    for (int j = 33; j < 38; j++) {
     	double sum = 0;
 	    for (int i = 0; i < 38; i++) {
 	    	cout << "From shown state of dealer: "<< j << " After hit state of dealer: " << i << " prob is: " << mgame->transProb[j][i][1] << endl;
@@ -54,7 +54,7 @@ int main(int argc, char** argv)
 	    cout << endl;
 	}
 
-	// cout << mgame->calcTransProb(0, 1 ,37) << endl;
+	// cout << mgame->calcTransProb(24, 1 ,3) << endl;
 
     // mgame->printTable();
     // for(int i=0;i<38;i++){
