@@ -1,8 +1,45 @@
 #include "Game.h"
+#include <string.h>
+
 int main(int argc, char** argv)
 {
-    Game * mgame = new Game(0.4);
+	string input = "";
+	if(argc != 2)
+		cout << "Arguments in format: p" << endl;
+	else
+		input = argv[1];
+	double p = stod(input);
+    Game * mgame = new Game(p);
     mgame->fillTable();
     mgame->updateTable();
-    mgame->printTable();
+    // mgame->printTable();
+    mgame->fillVMatrix();
+    // mgame->printAction();
+    mgame->valueIteration(10);
+    mgame->printAction();
+    // cout << "5 " << mgame->calcStandingReward(0, 0) << endl;
+	// cout << "6 " << mgame->calcStandingReward(1, 0) << endl;
+ //    cout << "7 " << mgame->calcStandingReward(2, 0) << endl;
+ //    cout << "8 " << mgame->calcStandingReward(3, 0) << endl;
+ //    cout << "9 " << mgame->calcStandingReward(4, 0) << endl;
+ //    cout << "10 " << mgame->calcStandingReward(5, 0) << endl;
+ //    cout << "11 " << mgame->calcStandingReward(6, 0) << endl;
+ //    cout << "12 " << mgame->calcStandingReward(7, 0) << endl;
+ //    cout << "13 " << mgame->calcStandingReward(8, 0) << endl;
+ //    cout << "14 " << mgame->calcStandingReward(9, 0) << endl;
+ //    cout << "15 " << mgame->calcStandingReward(10, 0) << endl;
+ //    cout << "16 " << mgame->calcStandingReward(11, 0) << endl;
+    // cout << endl << mgame->probScore(3, 18) << endl;
+    // cout << "Up card is 2 and probability of reaching sum 5 is: " << mgame->calcStateProb(1, 0) << endl; 
+    // cout << "Up card is 2 and probability of reaching sum 6 is: " << mgame->calcStateProb(1, 8) << endl; 
+    // cout << "Up card is 2 and probability of reaching sum 7 is: " << mgame->calcStateProb(1, 2) << endl; 
+    // cout << "Up card is 2 and probability of reaching sum 8 is: " << mgame->calcStateProb(1, 3) << endl; 
+    // cout << "Up card is 2 and probability of reaching sum 9 is: " << mgame->calcStateProb(1, 4) << endl; 
+    // cout << "Up card is 2 and probability of reaching sum 10 is: " << mgame->calcStateProb(1, 5) << endl; 
+    // cout << "Up card is 2 and probability of reaching sum 11 is: " << mgame->calcStateProb(1, 6) << endl; 
+    // cout << "Up card is 2 and probability of reaching sum 12 is: " << mgame->calcStateProb(1, 7) << endl; 
+    // cout << "Up card is 2 and probability of reaching sum 13 is: " << mgame->calcStateProb(1, 16) << endl; 
+    // cout << "Up card is 2 and probability of reaching sum 4 is: " << mgame->calcStateProb(1, 24) << endl; 
+ 	// cout << mgame->calcFinalState(7,13) << endl;
+    
 }

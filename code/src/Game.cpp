@@ -24,7 +24,7 @@ void Game::initVMatrix () {
 	}
 
 	for (int i = 0; i < 38; i++) {
-		for(int j = 0; j < 10; j++) {
+		for (int j = 0; j < 10; j++) {
 			tempVMatrix[i][j] = std::numeric_limits<int>::min();
 		}
 	}
@@ -300,34 +300,61 @@ double Game::calcStateProb (int stateHidden, int stateShown) {
 	double prob = 0;
 
 	if (stateHidden < 8) { // up card 2-9
-		if (stateShown >= stateHidden - 1 && stateShown != 2*stateHidden - 1 && stateShown < stateHidden + 7) // 2-9 and not the same card again and less than 9
+		// cout << "In if" << endl;
+		if (stateShown >= stateHidden - 1 && stateShown != 2*stateHidden - 1 && stateShown < stateHidden + 7) { // 2-9 and not the same card again and less than 9
 			prob = (1 - p)/9;
-		else if (stateShown == stateHidden + 7) //face card
+			// cout << "\t In if" << endl;
+		}
+		else if (stateShown == stateHidden + 7) { //face card
 			prob = p;
-		else if (stateShown == stateHidden + 15 || stateShown == stateHidden + 23) // 15 for ace and 23 for pair
+			// cout << "\t In else if 1" << endl;
+		}
+		else if (stateShown == stateHidden + 15 || stateShown == stateHidden + 23) { // 15 for ace and 23 for pair
 			prob = (1 - p)/9;
-		else
+			// cout << "\t In else if 2" << endl;
+		}
+		else {
 			prob = 0;
+			// cout << "\t In else" << endl;
+		}
 	}
 	else if (stateHidden == 8) { // up card 10
-		if (stateShown >= stateHidden - 1 && stateShown != 2*stateHidden - 1 && stateShown < stateHidden + 7)
+		// cout << "In else if 1" << endl;
+		if (stateShown >= stateHidden - 1 && stateShown != 2*stateHidden - 1 && stateShown < stateHidden + 7) {
 			prob = (1 - p)/9;
-		else if (stateShown == 31) // pair
+			// cout << "\t In if" << endl;
+		}
+		else if (stateShown == 31) { // pair
 			prob = p;
-		else if (stateShown == 33) // blackjack
+			// cout << "\t In else if 1" << endl;
+		}
+		else if (stateShown == 33) { // blackjack
 			prob = (1 - p)/9;
-		else
+			// cout << "\t In else if 2" << endl;
+		}
+		else {
 			prob = 0;
+			// cout << "\t In else" << endl;
+		}
 	}
 	else if (stateHidden == 9) { // ace
-		if (stateShown >= 15 && stateShown <= 22) // 2-9
+		// cout << "In else if 2" << endl;
+		if (stateShown >= 15 && stateShown <= 22) { // 2-9
 			prob = (1 - p)/9;
-		else if (stateShown == 32) // pair
+			// cout << "\t In if" << endl;
+		}
+		else if (stateShown == 32) { // pair
 			prob = (1 - p)/9;
-		else if (stateShown == 33) // blackjack
+			// cout << "\t In else if 1" << endl;
+		}
+		else if (stateShown == 33) { // blackjack
 			prob = p;
-		else
+			// cout << "\t In else if 2" << endl;
+		}
+		else {
 			prob = 0;
+			// cout << "\t In else" << endl;
+		}
 	}
 
 	return prob;
@@ -348,7 +375,7 @@ double Game::calcFinalState (int dealerStateInitial, int dealerStateFinal) {
 		if(valueHand(dealerStateFinal) < 17)
 			prob = 0;
 		else {
-			//dealerStateInitial is less than 17 
+			prob = transProb[dealerStateInitial][dealerStateFinal][14]; 
 		}
 	}
 
@@ -392,48 +419,72 @@ double Game::probScore (int dealerStateHidden, int handValue) {
 
 	for(int i = 0; i < 38; i++) {
 		prob += calcStateProb (dealerStateHidden, i) * calcFinalScore (i, handValue);
+
+		// cout << "Prob update " << i << ": " << prob << "\t stateShown: " << i << " " << calcStateProb(dealerStateHidden, i) << "\t \t shownState to value: " << calcFinalScore (i, handValue) << endl;
 	}
 
 	return prob;
 
 }
 
-int Game::calcStandingReward (int statePlayer, int stateDealer) {
+double Game::calcStandingReward (int statePlayer, int stateDealer) {
 
 	double reward = 0;
 
 	int playerHand = valueHand(statePlayer);
-	
-	if (playerHand != 21) {
-	
+	// cout << "PlayerHand Value: " << playerHand << endl;
+	if (playerHand == 22) {
+		reward = -1;
+	}
+	else if (playerHand != 21) {
+		
+		for (int i = 0; i < playerHand; i++) {
+			reward += probScore(stateDealer, i);
+			// cout << "Reward update "<< i << ": " << reward << endl;
+		}
+
 		for (int i = playerHand + 1; i <= 21; i++) {
 			reward -= probScore(stateDealer, i);
+			// cout << "Reward update "<< i << ": " << reward << endl;
 		}
 
-		for(int i = 0; i < playerHand; i++) {
-			reward += probScore(stateDealer, i);
-		}
-	
 	}
-
-	else {
+	else  {
 
 		if (statePlayer == 33) {
+			
+			reward += calcStateProb(stateDealer, 33)*0;
+		
+			for (int i = 0; i < 33; i++) {
+				reward += calcStateProb(stateDealer, i) * 1.5;
+			}
 
+			for (int i = 34; i < 38; i++) {
+				reward += calcStateProb(stateDealer, i) * 1.5;
+			}
+		
 		}
 		else {
 
-		}
+			reward -= calcStateProb(stateDealer, 33);
+			for (int i = 0; i < 33; i++) {
+				reward += calcStateProb(stateDealer, i);
+			}
 
+			for(int i = 34; i < 38; i++) {
+				reward += calcStateProb(stateDealer, i);
+			}
+
+		}
+	
 	}
-	//trash talk
-	return 0;
+	return reward;
 }
 
 int Game::valueHand (int state) {
 
 	if (state <= 14)
-		return state;
+		return state + 5;
 	else if (state <= 22)
 		return state - 2;
 	else if (state <= 31)
@@ -485,13 +536,150 @@ void Game::updateTable () {
 
 void Game::fillVMatrix () {
 
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 10; j++) {
+			VMatrix[i][j] = calcStandingReward(i, j);
+		}
+	}
+
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 10; j++) {
+			actionMatrix[i][j] = 2;
+		}
+	}
+
 }
 
-void Game::fillTransProb () {
+bool checkGreater(double d1, double d2) {
+	if (d1 - d2 > 0.0001)
+		return true;
+	return false;
+}
+
+void Game::updateVMatrix () {
+
+	int ** tempVMatrix = new int*[38];
+	double rewardSplit = 0;
+	double rewardStand = 0;
+	double rewardHit = 0;
+	double rewardDouble = 0;
+
+	for (int i= 0; i < 38; i++) {
+		tempVMatrix[i] = new int[10];
+	}
+
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 10; j++) {
+			tempVMatrix[i][j] = std::numeric_limits<int>::min();
+		}
+	}
+
+	// cout << tempVMatrix[0][0] << endl;
+
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 10; j++) {
+			for (int action = 1; action <= 4; action++) {
+				if (action == 4) {
+					rewardSplit = 0;
+					for (int k = 0; k < 38; k++) {
+						if (i != 32) {
+							for (int l = 0; l < 38; l++) {
+								rewardSplit += calcTransProb(i,4,k) * calcTransProb(i,4,l) * (VMatrix[k][j] + VMatrix[l][j]);
+							}
+						}
+						else {
+							for (int l = 0; l < 38; l++) {
+								rewardSplit += calcTransProb(i,4,k) * calcTransProb(i,4,l) * (calcStandingReward(k,j) + calcStandingReward(l,j));
+							}
+						}
+					}
+				}
+				else if (action == 3) {
+					rewardDouble = 0;
+				}
+				else if (action == 2) {
+					rewardStand = calcStandingReward(i,j);
+				}
+				else if (action == 1) {
+					rewardHit = 0;
+					for (int k = 0; k < 38; k++) {
+						rewardHit += calcTransProb(i,1,k) * VMatrix[k][j];
+					}
+					// cout << "Reward on hit\tfor playerState: " << i << " dealerState: " << j << ": " << rewardHit << endl;
+					// cout << "Reward on stand\tfor playerState: " << i << " dealerState: " << j << ": " << calcStandingReward(i,j) << endl;
+				}
+			}
+			if (i >= 23 && i <= 32) {
+				if (checkGreater(rewardHit, rewardSplit) && checkGreater(rewardHit, rewardStand)) {
+					tempVMatrix[i][j] = rewardHit;
+					actionMatrix[i][j] = 1;
+				}
+				else if (checkGreater(rewardStand, rewardSplit) && checkGreater(rewardStand, rewardHit)) {
+					tempVMatrix[i][j] = rewardStand;
+					actionMatrix[i][j] = 2;
+				}
+				else {
+					tempVMatrix[i][j] = rewardSplit;
+					actionMatrix[i][j] = 4;
+				}
+			}
+			else {
+				if (checkGreater(rewardHit, rewardStand)) {
+					tempVMatrix[i][j] = rewardHit;
+					actionMatrix[i][j] = 1;
+				}
+				else {
+					tempVMatrix[i][j] = rewardStand;
+					actionMatrix[i][j] = 2;
+				}
+			}
+		}
+	}
+
+	VMatrix = tempVMatrix;
 
 }
 
-void Game::printTable(){
+void Game::valueIteration (int times) {
+
+	fillVMatrix();
+
+	int ** tempVMatrix = new int*[38];
+	double reward = 0;
+
+	for (int i= 0; i < 38; i++) {
+		tempVMatrix[i] = new int[10];
+	}
+
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 10; j++) {
+			tempVMatrix[i][j] = std::numeric_limits<int>::min();
+		}
+	}
+
+	for (int i = 0; i < times; i++) {
+		updateVMatrix();
+		// printAction();
+	}
+
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 10; j++) {
+			reward = 0;
+			for (int k = 0; k < 38; k++) {
+				reward += 2 * calcTransProb(i, 3, k) * calcStandingReward(k,j);
+			}
+			if(reward - VMatrix[i][j] > 0.0001) {
+				tempVMatrix[i][j] = reward;
+				actionMatrix[i][j] = 3;
+			}
+		}
+	}
+
+	VMatrix = tempVMatrix;
+
+}
+
+void Game::printTable (){
 	for (int k = 0; k < 15; k++) {
 		for (int i = 0; i < 38; i++) {
 			for (int j = 0; j < 38; j++) {
@@ -502,4 +690,44 @@ void Game::printTable(){
 		cout << k << " ---------------------------- " <<endl;
 	}
 	cout << "printed"<<endl;
+}
+
+string Game::numToAction (int action) {
+
+	if (action == 1)
+		return "H";
+	else if (action == 2)
+		return "S";
+	else if (action == 3)
+		return "D";
+	else
+		return "P";
+
+}
+
+void Game::printAction () {
+
+	for (int i = 0; i <= 32; i++) {
+		if (i <= 14) {
+			cout << i+5 << "\t";
+		}
+		else if (i <= 22) {
+			cout << "A" << i-13 << "\t";
+		}
+		else if (i <32) {
+			cout << i-21 << i-21 << "\t";
+		}
+		else if (i == 32) {
+			cout << "AA" << "\t";
+		}
+		
+		cout << numToAction(actionMatrix[i][0]);
+		
+		for (int j = 1; j < 10; j++) {
+			cout << " " << numToAction(actionMatrix[i][j]);
+		}
+		cout << endl;
+	}
+	cout << endl;
+
 }
