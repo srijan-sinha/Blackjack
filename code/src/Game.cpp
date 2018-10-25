@@ -201,7 +201,7 @@ double Game::calcTransProb (int stateInitial, int action, int stateFinal) {
 			}
 
 			if (stateInitial != 5) {
-				if (stateFinal == stateInitial + 15)
+				if (stateFinal == stateInitial + 18)
 					prob = (1 - p)/9;
 			}
 			else {
@@ -541,7 +541,7 @@ void Game::updateTable () {
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 38; j++) {
-			for (int k = 0; k < 15; k++) {
+			for (int k = 1; k < 15; k++) {
 				transProb[i][j][15] += transProb[i][j][k];
 			}
 		}
