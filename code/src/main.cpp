@@ -53,14 +53,14 @@ int main(int argc, char** argv)
 	//     cout << endl << "State Num: " << j << " Sum: " << sum << endl;
 	//     cout << endl;
 	// }
-    for(int j=32;j<33;j++){
+    for(int j=0;j<38;j++){
             double sum =0;
         for(int i=0;i<38;i++){
-            sum += mgame->calcTransProb(j,4,i);
-            cout << " indi "<<i<< "  is "<< mgame->calcTransProb(j,4,i) << endl;
+            sum += mgame->calcTransProb(j,1,i);
+            cout <<"j is "<<j<< " i "<<i<< " is "<< mgame->calcTransProb(j,1,i) << endl;
         }
             cout <<"Sum is : "<< sum << endl;
-            if(sum==0){
+            if(sum-1>0.0001){
                 cout << "j "<<j<<endl;
             }
     }
