@@ -25,7 +25,7 @@ void Game::initVMatrix () {
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
-			tempVMatrix[i][j] = std::numeric_limits<double>::min();
+			tempVMatrix[i][j] = -10000;
 		}
 	}
 
@@ -563,14 +563,14 @@ void Game::fillVMatrix () {
 		}
 	}
 
-	cout << endl << endl << "***********************************************************" << endl << endl << endl << endl << endl;
+	// cout << endl << endl << "***********************************************************" << endl << endl << endl << endl << endl;
 
-	for (int i = 0; i < 38; i++) {
-		for (int j = 0; j < 10; j++) {
-			cout << VMatrix[i][j] << " \t";
-		}
-		cout << endl;
-	}
+	// for (int i = 0; i < 38; i++) {
+	// 	for (int j = 0; j < 10; j++) {
+	// 		cout << VMatrix[i][j] << " \t";
+	// 	}
+	// 	cout << endl;
+	// }
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
@@ -600,7 +600,7 @@ void Game::updateVMatrix () {
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
-			tempVMatrix[i][j] = std::numeric_limits<double>::min();
+			tempVMatrix[i][j] = -100000;
 		}
 	}
 
@@ -625,7 +625,7 @@ void Game::updateVMatrix () {
 					}
 				}
 				else if (action == 3) {
-					rewardDouble = 0;
+					rewardDouble = 0;				// see this
 				}
 				else if (action == 2) {
 					rewardStand = calcStandingReward(i,j);
@@ -639,35 +639,59 @@ void Game::updateVMatrix () {
 					// cout << "Reward on stand\tfor playerState: " << i << " dealerState: " << j << ": " << calcStandingReward(i,j) << endl;
 				}
 			}
+			bool debug=false;
 			if (i >= 23 && i <= 32) {
 				if (checkGreater(rewardHit, rewardSplit) && checkGreater(rewardHit, rewardStand)) {
 					tempVMatrix[i][j] = rewardHit;
 					actionMatrix[i][j] = 1;
+					if(debug) cout << "here1" << endl;
 				}
 				else if (checkGreater(rewardStand, rewardSplit) && checkGreater(rewardStand, rewardHit)) {
 					tempVMatrix[i][j] = rewardStand;
 					actionMatrix[i][j] = 2;
+					if(debug) cout << "here2" << endl;
 				}
 				else {
 					tempVMatrix[i][j] = rewardSplit;
 					actionMatrix[i][j] = 4;
+					if(debug) cout << "here3" << endl;
 				}
 			}
 			else {
 				if (checkGreater(rewardHit, rewardStand)) {
 					tempVMatrix[i][j] = rewardHit;
 					actionMatrix[i][j] = 1;
+					if(debug) cout << "here4" << endl;
 				}
 				else {
 					tempVMatrix[i][j] = rewardStand;
 					actionMatrix[i][j] = 2;
+					if(debug) cout << "here5" << endl;
 				}
 			}
 		}
 	}
+	int diff=0;
+	for(int i=0;i<38;i++){
+		for(int j=0;j<10;j++){
+			if(abs(VMatrix[i][j]- tempVMatrix[i][j]) > 0.0001){
+				diff++;
+			}
+		}
+	}
+	cout << "number of values changed were : "<<diff<<endl;
 
 	VMatrix = tempVMatrix;
 
+	diff=0;
+	for(int i=0;i<38;i++){
+		for(int j=0;j<10;j++){
+			if(abs(VMatrix[i][j]- tempVMatrix[i][j]) > 0.0001){
+				diff++;
+			}
+		}
+	}
+	cout << "number of values changed were ---------------------------check: "<<diff<<endl;
 }
 
 void Game::valueIteration (int times) {
@@ -683,7 +707,7 @@ void Game::valueIteration (int times) {
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
-			tempVMatrix[i][j] = std::numeric_limits<double>::min();
+			tempVMatrix[i][j] = VMatrix[i][j];
 		}
 	}
 
@@ -752,10 +776,10 @@ void Game::printAction () {
 		}
 		cout << "\t";
 		
-		cout << numToAction(actionMatrix[i][0]) /**<< ": " << VMatrix[i][0] << "\t\t"*/;
+		cout << numToAction(actionMatrix[i][0]) << ": " << VMatrix[i][0] << "\t\t";
 		
 		for (int j = 1; j < 10; j++) {
-			cout << " " << numToAction(actionMatrix[i][j]) /**<< ": " << VMatrix[i][j] << "\t\t"*/;
+			cout << " " << numToAction(actionMatrix[i][j]) << ": " << VMatrix[i][j] << "\t\t";
 		}
 		cout << endl;
 	}
