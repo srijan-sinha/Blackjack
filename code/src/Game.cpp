@@ -61,13 +61,13 @@ void Game::initTransProb () {
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 38; j++) {
-			tempTransProb[i][j] = new double[15];
+			tempTransProb[i][j] = new double[16];
 		}
 	}
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 38; j++) {
-			for (int k = 0; k < 15; k++) {
+			for (int k = 0; k < 16; k++) {
 				tempTransProb[i][j][k] = 0;
 			}
 		}
@@ -375,7 +375,7 @@ double Game::calcFinalState (int dealerStateInitial, int dealerStateFinal) {
 		if(valueHand(dealerStateFinal) < 17)
 			prob = 0;
 		else {
-			prob = transProb[dealerStateInitial][dealerStateFinal][14]; 
+			prob = transProb[dealerStateInitial][dealerStateFinal][15]; 
 		}
 	}
 
@@ -504,7 +504,11 @@ void Game::fillTable () {
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 38; j++) {
-			transProb[i][j][0] = calcTransProb (i, 1, j);
+			if (i == j)
+				// transProb[i][j][0] = calcTransProb (i, 1, j);
+				transProb[i][j][0] = 1;
+			else
+				transProb[i][j][0] = 0;
 		}
 	}
 
@@ -512,7 +516,7 @@ void Game::fillTable () {
 
 void Game::updateTable () {
 
-	for (int step = 1; step < 14; step++) {
+	for (int step = 1; step < 15; step++) {
 		for (int i = 0; i < 38; i++) {
 			for (int j = 0; j < 38; j++) {
 				for (int k = 0; k < 38; k++) {
@@ -526,8 +530,8 @@ void Game::updateTable () {
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 38; j++) {
-			for (int k = 0; k < 14; k++) {
-				transProb[i][j][14] += transProb[i][j][k];
+			for (int k = 0; k < 15; k++) {
+				transProb[i][j][15] += transProb[i][j][k];
 			}
 		}
 	}

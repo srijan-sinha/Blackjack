@@ -24,7 +24,7 @@ class Game {
 		void initTransProb();		//checked
 		void initStateProb();		//checked
 		double calcTransProb(int stateInitial, int action, int stateFinal);		//nocheck			// Transition probability from one state to another based on the action carried out.
-		double calcStateProb(int stateHidden, int stateShown);					//nocheck			// Probability that dealer gets the mentioned full state (both cards known) from the partial state (only one card known).
+		double calcStateProb(int stateHidden, int stateShown);					//checked			// Probability that dealer gets the mentioned full state (both cards known) from the partial state (only one card known).
 		double calcFinalState(int dealerStateInitial, int dealerStateFinal);	//nocheck			// Probability that after dealer stands he reaches the dealerStateFinal from dealerStateInitial (both cards known).
 		double calcFinalScore(int dealerStateInitial, int handValue);			//nocheck			// Probability that dealer starting in given fully know state ends up with given hand value.
 		double probScore(int dealerStateHidden, int handValue);					//nocheck			// Probability that dealer starting in given partially hidden state ends up with given hand value.
@@ -41,8 +41,8 @@ class Game {
 		void fillVMatrix();														//nocheck
 		void updateVMatrix();													//nocheck
 		void valueIteration(int times);											//nocheck
-		string numToAction(int action);											//nocheck
-		void printAction();														//nocheck
+		string numToAction(int action);											//checked
+		void printAction();														//checked
 
 };
 

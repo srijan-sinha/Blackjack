@@ -12,11 +12,11 @@ int main(int argc, char** argv)
     Game * mgame = new Game(p);
     mgame->fillTable();
     mgame->updateTable();
-    mgame->printTable();
-    mgame->fillVMatrix();
+    // mgame->printTable();
+    // mgame->fillVMatrix();
     // mgame->printAction();
-    mgame->valueIteration(10);
-    mgame->printAction();
+    // mgame->valueIteration(10);
+    // mgame->printAction();
     // cout << "5 " << mgame->calcStandingReward(0, 0) << endl;
 	// cout << "6 " << mgame->calcStandingReward(1, 0) << endl;
  //    cout << "7 " << mgame->calcStandingReward(2, 0) << endl;
@@ -41,14 +41,24 @@ int main(int argc, char** argv)
     // cout << "Up card is 2 and probability of reaching sum 13 is: " << mgame->calcStateProb(1, 16) << endl; 
     // cout << "Up card is 2 and probability of reaching sum 4 is: " << mgame->calcStateProb(1, 24) << endl; 
  	// cout << mgame->calcFinalState(7,13) << endl;
-    
-    mgame->printTable();
-    for(int i=0;i<38;i++){
-        double ct=0;
-        for(int j=0;j<38;j++){
-            ct += mgame->transProb[i][j][0];
-        }
-        cout<<ct<<endl;
-    }
-    cout << "done"<<endl;
+    for (int j = 0; j < 38; j++) {
+    	double sum = 0;
+	    for (int i = 0; i < 38; i++) {
+	    	// cout << "For state shown: "<< j + 2 << " Hand value: " << mgame->valueHand(i) << " prob is: " << mgame->calcStateProb(j,i) << endl;
+	    	sum += mgame->calcFinalState(j,i);
+	    }
+
+	    cout <<"State Num: " << j << " Sum: " << sum << endl;
+	    cout << endl;
+	}
+
+    // mgame->printTable();
+    // for(int i=0;i<38;i++){
+    //     double ct=0;
+    //     for(int j=0;j<38;j++){
+    //         ct += mgame->transProb[i][j][0];
+    //     }
+    //     cout<<ct<<endl;
+    // }
+    // cout << "done"<<endl;
 }
