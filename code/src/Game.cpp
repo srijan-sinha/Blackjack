@@ -628,6 +628,9 @@ void Game::updateVMatrix () {
 				}
 				else if (action == 3) {
 					rewardDouble = 0;				// see this
+					for(int k=0;k<38;k++){
+						rewardDouble += 2 * calcTransProb(i,3,k) * calcStandingReward(k,j);
+					}
 				}
 				else if (action == 2) {
 					rewardStand = calcStandingReward(i,j);
@@ -643,15 +646,19 @@ void Game::updateVMatrix () {
 			}
 			bool debug=false;
 			if (i >= 23 && i <= 32) {
-				if (checkGreater(rewardHit, rewardSplit) && checkGreater(rewardHit, rewardStand)) {
+				if (checkGreater(rewardHit, rewardSplit) && checkGreater(rewardHit, rewardStand) && checkGreater(rewardHit, rewardDouble)) {
 					tempVMatrix[i][j] = rewardHit;
 					actionMatrix[i][j] = 1;
 					if(debug) cout << "here1" << endl;
 				}
-				else if (checkGreater(rewardStand, rewardSplit) && checkGreater(rewardStand, rewardHit)) {
+				else if (checkGreater(rewardStand, rewardSplit) && checkGreater(rewardStand, rewardHit) && checkGreater(rewardStand, rewardDouble)) {
 					tempVMatrix[i][j] = rewardStand;
 					actionMatrix[i][j] = 2;
 					if(debug) cout << "here2" << endl;
+				}else if(checkGreater(rewardDouble, rewardSplit) && checkGreater(rewardDouble, rewardHit) && checkGreater(rewardDouble, rewardStand)){
+					tempVMatrix[i][j] = rewardDouble;
+					actionMatrix[i][j] = 3;
+					if(debug) cout << "hered" << endl;
 				}
 				else {
 					tempVMatrix[i][j] = rewardSplit;
@@ -660,10 +667,14 @@ void Game::updateVMatrix () {
 				}
 			}
 			else {
-				if (checkGreater(rewardHit, rewardStand)) {
+				if (checkGreater(rewardHit, rewardStand) && checkGreater(rewardHit, rewardDouble)) {
 					tempVMatrix[i][j] = rewardHit;
 					actionMatrix[i][j] = 1;
 					if(debug) cout << "here4" << endl;
+				}else if(checkGreater(rewardDouble, rewardStand) && checkGreater(rewardDouble, rewardHit)){
+					tempVMatrix[i][j] = rewardDouble;
+					actionMatrix[i][j] = 3;
+					if(debug) cout << "hered" << endl;
 				}
 				else {
 					tempVMatrix[i][j] = rewardStand;
@@ -718,20 +729,20 @@ void Game::valueIteration (int times) {
 		// printAction();
 	}
 
-	for (int i = 0; i < 38; i++) {
-		for (int j = 0; j < 10; j++) {
-			reward = 0;
-			for (int k = 0; k < 38; k++) {
-				reward += 2 * calcTransProb(i, 3, k) * calcStandingReward(k,j);
-			}
-			if(reward - VMatrix[i][j] > 0.0001) {
-				tempVMatrix[i][j] = reward;
-				actionMatrix[i][j] = 3;
-			}
-		}
-	}
+	// for (int i = 0; i < 38; i++) {
+	// 	for (int j = 0; j < 10; j++) {
+	// 		reward = 0;
+	// 		for (int k = 0; k < 38; k++) {
+	// 			reward += 2 * calcTransProb(i, 3, k) * calcStandingReward(k,j);
+	// 		}
+	// 		if(reward - VMatrix[i][j] > 0.0001) {
+	// 			tempVMatrix[i][j] = reward;
+	// 			actionMatrix[i][j] = 3;
+	// 		}
+	// 	}
+	// }
 
-	VMatrix = tempVMatrix;
+	// VMatrix = tempVMatrix;
 
 }
 
