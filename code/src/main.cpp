@@ -14,9 +14,9 @@ int main(int argc, char** argv)
     mgame->updateTable();
     // mgame->printTable();
     mgame->fillVMatrix();
-    mgame->printAction();
-    mgame->valueIteration(10);
-    mgame->printAction();
+    // mgame->printAction();
+    // mgame->valueIteration(10);
+    // mgame->printAction();
     // cout << "5 " << mgame->calcStandingReward(0, 0) << endl;
 	// cout << "6 " << mgame->calcStandingReward(1, 0) << endl;
  //    cout << "7 " << mgame->calcStandingReward(2, 0) << endl;
