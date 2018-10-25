@@ -13,10 +13,10 @@ int main(int argc, char** argv)
     mgame->fillTable();
     mgame->updateTable();
     // mgame->printTable();
-    mgame->fillVMatrix();
+    // mgame->fillVMatrix();
     // mgame->printAction();
-    // mgame->valueIteration(10);
-    // mgame->printAction();
+    mgame->valueIteration(10);
+    mgame->printAction();
     // cout << "5 " << mgame->calcStandingReward(0, 0) << endl;
 	// cout << "6 " << mgame->calcStandingReward(1, 0) << endl;
  //    cout << "7 " << mgame->calcStandingReward(2, 0) << endl;
@@ -45,6 +45,10 @@ int main(int argc, char** argv)
 
     // for (int j = 11; j < 21; j++) {
     // 	double sum = 0;
+/***********
+
+ //    for (int j = 0; j < 38; j++) {
+ //    	double sum = 0;
 	//     for (int i = 0; i < 38; i++) {
 	//     	cout << "From shown state of dealer: "<< j << " After hit state of dealer: " << i << " prob is: " << mgame->transProb[j][i][1] << endl;
 	//     	sum += mgame->transProb[j][i][1];
@@ -55,7 +59,6 @@ int main(int argc, char** argv)
 	// }
     for(int j=0;j<38;j++){
             double sum =0;
-        for(int i=0;i<38;i++){
             sum += mgame->calcTransProb(j,1,i);
             cout <<"j is "<<j<< " i "<<i<< " is "<< mgame->calcTransProb(j,1,i) << endl;
         }
@@ -75,8 +78,26 @@ int main(int argc, char** argv)
 	//     cout << endl << "State Num: " << j << " Sum: " << sum << endl;
 	//     cout << endl;
 	// }
+*********/
+    // cout << mgame->calcStandingReward(0, 9) << endl;
+    // for(int i = 0; i < 38; i++) {
+    // 	cout << "State: " << i << " Value: " << mgame->valueHand(i) << endl;
+    // }
+
+    // for (int i = 23; i < 33; i++) {
+    // 	double sum = 0;
+    // 	for (int j = 0; j < 38; j++) {
+    // 		cout << "State from: " << i << "\t State to: " << j << "\t prob on hit: " << mgame->calcTransProb(i, 4 ,j) << endl;
+    // 		sum += mgame->calcTransProb(i, 4, j);
+    // 	}
+    // 	cout << endl << "Sum: " << sum << endl << endl;;
+    // }
+/********************
+*/
+	cout << mgame-> calcStandingReward(14, 5);
+
+// ******************/
 
 	// cout << mgame->calcTransProb(24, 1 ,3) << endl;
-
     // mgame->printTable();
 }
