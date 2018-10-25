@@ -79,3 +79,4 @@ int main(int argc, char** argv)
 	// cout << mgame->calcTransProb(24, 1 ,3) << endl;
 
     // mgame->printTable();
+}
