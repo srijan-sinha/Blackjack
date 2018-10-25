@@ -41,16 +41,20 @@ int main(int argc, char** argv)
     // cout << "Up card is 2 and probability of reaching sum 13 is: " << mgame->calcStateProb(1, 16) << endl; 
     // cout << "Up card is 2 and probability of reaching sum 4 is: " << mgame->calcStateProb(1, 24) << endl; 
  	// cout << mgame->calcFinalState(7,13) << endl;
-    for (int j = 0; j < 38; j++) {
+    
+
+    for (int j = 0; j < 10; j++) {
     	double sum = 0;
 	    for (int i = 0; i < 38; i++) {
-	    	// cout << "For state shown: "<< j + 2 << " Hand value: " << mgame->valueHand(i) << " prob is: " << mgame->calcStateProb(j,i) << endl;
-	    	sum += mgame->calcFinalState(j,i);
+	    	cout << "From shown state of dealer: "<< j << " After hit state of dealer: " << i << " prob is: " << mgame->transProb[j][i][1] << endl;
+	    	sum += mgame->transProb[j][i][1];
 	    }
 
-	    cout <<"State Num: " << j << " Sum: " << sum << endl;
+	    cout << endl << "State Num: " << j << " Sum: " << sum << endl;
 	    cout << endl;
 	}
+
+	// cout << mgame->calcTransProb(0, 1 ,37) << endl;
 
     // mgame->printTable();
     // for(int i=0;i<38;i++){

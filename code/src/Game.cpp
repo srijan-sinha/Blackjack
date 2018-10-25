@@ -99,14 +99,16 @@ double Game::calcTransProb (int stateInitial, int action, int stateFinal) {
 
 	double prob = 0;
 
-	if (action == 2)
+	if (action == 2) {
 		if (stateInitial == stateFinal)
 			prob = 1;
 		else
 			prob = 0;
+	}
 	else if (action == 4) {
-		if (stateInitial < 23)
+		if (stateInitial < 23) {
 			prob = 0;
+		}
 		else if (stateInitial == 23) {
 			if (stateFinal < 7 || stateFinal == 15 || stateFinal == 23)
 				prob = (1 - p)/9;
@@ -191,29 +193,35 @@ double Game::calcTransProb (int stateInitial, int action, int stateFinal) {
 	else {
 		if (stateInitial >= 0 && stateInitial <= 5) {
 
-			if (stateFinal >= stateInitial + 2 && stateFinal <= stateInitial + 9)
+			if (stateFinal >= stateInitial + 2 && stateFinal <= stateInitial + 9) {
 				prob =  (1 - p)/9;
-			else if (stateFinal == stateInitial + 10)
+			}
+			else if (stateFinal == stateInitial + 10) {
 				prob = p;
+			}
 
-			if (stateInitial != 5)
+			if (stateInitial != 5) {
 				if (stateFinal == stateInitial + 15)
 					prob = (1 - p)/9;
-			else
+			}
+			else {
 				if (stateFinal == 37)
 					prob = (1 - p)/9;
+			}
 		}
 		else if (stateInitial >= 6 && stateInitial <= 14) {
-			if (stateFinal >= stateInitial + 1 && stateFinal <= stateInitial + 9)
+			if (stateFinal >= stateInitial + 1 && stateFinal <= stateInitial + 9) {
 				if (stateFinal <= 14) 
 					prob = (1 - p)/9;
+			}
 			else if (stateFinal == 34)
 				prob = (1 - p)/9;
-			else if (stateFinal == 35)
+			else if (stateFinal == 35) {
 				if (stateInitial == 6)
 					prob = p;
 				else
 					prob = (1 - p)/9;
+			}
 			else if (stateFinal == 36) {
 				if (stateInitial == 7)
 					prob = p;
@@ -227,9 +235,10 @@ double Game::calcTransProb (int stateInitial, int action, int stateFinal) {
 				prob = (1 - p)/9;
 			else if (stateFinal >= 7 && stateFinal <=stateInitial - 8)
 				prob = (1 - p)/9;
-			else if (stateFinal == stateInitial - 7)
+			else if (stateFinal == stateInitial - 7) {
 				if(stateInitial != 22)
 					prob = p;
+			}
 			else if (stateFinal == 34 && stateInitial == 22)
 				prob = p;
 		}
@@ -378,6 +387,8 @@ double Game::calcFinalState (int dealerStateInitial, int dealerStateFinal) {
 			prob = transProb[dealerStateInitial][dealerStateFinal][15]; 
 		}
 	}
+
+	return prob;
 
 }
 
