@@ -1,2 +1,1 @@
-cd code/bin
-./main $1
+./code/bin/main $1 > Policy.txt
