@@ -544,7 +544,6 @@ void Game::fillTable () {
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 38; j++) {
 			if (i == j)
-				// transProb[i][j][0] = calcTransProb (i, 1, j);
 				transProb[i][j][0] = 1;
 			else
 				transProb[i][j][0] = 0;
@@ -669,19 +668,10 @@ void Game::updateVMatrix (bool debug) {
 						rewardHit = 0;
 						for (int k = 0; k < 38; k++) {
 							rewardHit += calcTransProb(i,1,k) * VMatrix[k][j][1];
-							if(i == 0 && j == 0) {
-								// cout << "Prob for: " << k << " is: " << calcTransProb(i,1,k) << " and value of given state is: " << VMatrix[k][j] << endl;
-							}
 						}
-						// cout << "Hit reward: " << rewardHit << endl;
-						// cout << "Reward on hit\tfor playerState: " << i << " dealerState: " << j << ": " << rewardHit << endl;
-						// cout << "Reward on stand\tfor playerState: " << i << " dealerState: " << j << ": " << calcStandingReward(i,j) << endl;
 					}
 				}
 
-				// if(debug) cout << "For player: " << i << " dealer: " << j << " rewardHit: " << rewardHit << endl;
-				// if(debug) cout << "For player: " << i << " dealer: " << j << " rewardStand: " << rewardStand << endl;
-				// if(debug) cout << "For player: " << i << " dealer: " << j << " rewardSplit: " << rewardSplit << endl;
 
 				if (i >= 23 && i <= 32) {
 					if (checkGreater(rewardHit, rewardSplit) && checkGreater(rewardHit, rewardStand) && checkGreater(rewardHit,rewardDouble)) {
@@ -701,7 +691,6 @@ void Game::updateVMatrix (bool debug) {
 					else {
 						tempVMatrix[i][j][ismul] = rewardSplit;
 						if(ismul == 0) actionMatrix[i][j] = 4;
-						// if(debug) cout << "For player: " << i << " dealer: " << j << " rewardSplit: " << rewardSplit << endl;
 					}
 				}
 				else {
@@ -709,73 +698,42 @@ void Game::updateVMatrix (bool debug) {
 						if (checkGreater(rewardHit, rewardStand) && checkGreater(rewardHit,rewardDouble)) {
 							tempVMatrix[i][j][ismul] = rewardHit;
 							if(ismul==0) actionMatrix[i][j] = 1;
-							// if(debug) cout << "For player: " << i << " dealer: " << j << "rewardHit: " << rewardHit << endl;
-						}
-						else if (checkGreater(rewardStand, rewardHit) && checkGreater(rewardStand, rewardDouble)) {
-							tempVMatrix[i][j][ismul] = rewardStand;
-							if(ismul==0) actionMatrix[i][j] = 2;
-							// if(debug) cout << "For player: " << i << " dealer: " << j << " rewardStand: " << rewardStand << endl;
 						}
 						else if(checkGreater(rewardDouble, rewardHit) && checkGreater(rewardDouble, rewardStand)){
 							tempVMatrix[i][j][0] = rewardDouble;
 							if(ismul==0) actionMatrix[i][j] = 3;
 						}
 						else { 
-							cout << "here" << endl;
-							// int a = 1/(1-1);
-							// tempVMatrix[i][j][0] = rewardSplit;
-							// if(ismul==0) actionMatrix[i][j] = 4;
-							// if(debug) cout << "For player: " << i << " dealer: " << j << " rewardSplit: " << rewardSplit << endl;
+							tempVMatrix[i][j][ismul] = rewardStand;
+							if(ismul==0) actionMatrix[i][j] = 2;
 						}
 					}
 					else {
 						if (checkGreater(rewardHit, rewardStand)) {
 							tempVMatrix[i][j][ismul] = rewardHit;
-							// actionMatrix[i][j] = 1;
-							// if(debug) cout << "For player: " << i << " dealer: " << j << "rewardHit: " << rewardHit << endl;
 						}
 						else {
 							tempVMatrix[i][j][ismul] = rewardStand;
-							// actionMatrix[i][j] = 2;
 						}
 					}
-
-					// if (checkGreater(rewardHit, rewardStand)) {
-					// 	tempVMatrix[i][j][ismul] = rewardHit;
-					// 	actionMatrix[i][j] = 1;
-					// 	// if(debug) cout << "For player: " << i << " dealer: " << j << "rewardHit: " << rewardHit << endl;
-					// 	if(ismul == 0 && checkGreater(rewardDouble, tempVMatrix[i][j][ismul])) {
-					// 		tempVMatrix[i][j][ismul] = rewardDouble;
-					// 		actionMatrix[i][j] = 3;
-					// 		if(debug) cout << i << " " << j << endl;
-					// 	}
-					// }
-					// else {
-					// 	tempVMatrix[i][j][ismul] = rewardStand;
-					// 	actionMatrix[i][j] = 2;
-					// 	if(ismul == 0 && checkGreater(rewardDouble, tempVMatrix[i][j][ismul])) {
-					// 		tempVMatrix[i][j][ismul] = rewardDouble;
-					// 		actionMatrix[i][j] = 3;
-					// 	}
-					// }
 				}
 			}
 		}
-		if(debug) cout << endl;
+		// if(debug) cout << endl;
 	}
 	int diff=0;
 	int i = 0;
 	int j = 0;
-	cout << tempVMatrix[i][j][0] << endl;
+	// cout << tempVMatrix[i][j][0] << endl;
 	// for(int i=0;i<38;i++){
 		// for(int j=0;j<10;j++){
 
-			if(abs(VMatrix[i][j][0]- tempVMatrix[i][j][0]) > 0.0001){
-				diff++;
-			}
+			// if(abs(VMatrix[i][j][0]- tempVMatrix[i][j][0]) > 0.0001){
+			// 	diff++;
+			// }
 		// }
 	// }
-	cout << "number of values changed were : "<<diff<<endl;
+	// cout << "number of values changed were : "<<diff<<endl;
 
 	this->VMatrix = tempVMatrix;
 
@@ -879,15 +837,15 @@ void Game::printAction () {
 		}
 		else
 			cout << "\t";
-		cout << "\t";
+		// cout << "\t";
 		
 		cout << numToAction(actionMatrix[i][0])/** << ": " << VMatrix[i][0] << "\t\t" */;
 		
 		for (int j = 1; j < 10; j++) {
 			cout << " " << numToAction(actionMatrix[i][j])/** << ": " << VMatrix[i][j] << "\t\t" */;
 		}
-		cout << endl;
+		if(i != 32) cout << endl;
 	}
-	cout << endl;
+	// cout << endl;
 
 }
