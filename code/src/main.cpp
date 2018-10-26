@@ -15,7 +15,7 @@ int main(int argc, char** argv)
     // mgame->printTable();
     // mgame->filleVMatrix();
     // mgame->printAction();
-    mgame->valueIteration(10);
+    mgame->valueIteration(6);
     mgame->printAction();
     // double sum = 0;
     // double sum2 = 0;
