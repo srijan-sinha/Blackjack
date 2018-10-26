@@ -489,7 +489,8 @@ double Game::calcStandingReward (int statePlayer, int stateDealer) {
 			}
 
 			for(int i = 34; i < 38; i++) {
-				reward += calcStateProb(stateDealer, i);
+				if(i != 35 && i != 37)
+					reward += calcStateProb(stateDealer, i);
 			}
 
 		}
@@ -640,6 +641,7 @@ void Game::updateVMatrix (bool debug) {
 							cout << "Prob for: " << k << " is: " << calcTransProb(i,1,k) << " and value of given state is: " << VMatrix[k][j] << endl;
 						}
 					}
+					cout << "Hit reward: " << rewardHit << endl;
 					// cout << "Reward on hit\tfor playerState: " << i << " dealerState: " << j << ": " << rewardHit << endl;
 					// cout << "Reward on stand\tfor playerState: " << i << " dealerState: " << j << ": " << calcStandingReward(i,j) << endl;
 				}
@@ -733,18 +735,18 @@ void Game::valueIteration (int times) {
 		}
 	}
 
-	for (int i = 0; i < 38; i++) {
-		for (int j = 0; j < 10; j++) {
-			reward = 0;
-			for (int k = 0; k < 38; k++) {
-				reward += 2 * calcTransProb(i, 3, k) * calcStandingReward(k,j);
-			}
-			if(reward - VMatrix[i][j] > 0.0001) {
-				tempVMatrix[i][j] = reward;
-				actionMatrix[i][j] = 3;
-			}
-		}
-	}
+	// for (int i = 0; i < 38; i++) {
+	// 	for (int j = 0; j < 10; j++) {
+	// 		reward = 0;
+	// 		for (int k = 0; k < 38; k++) {
+	// 			reward += 2 * calcTransProb(i, 3, k) * calcStandingReward(k,j);
+	// 		}
+	// 		if(reward - VMatrix[i][j] > 0.0001) {
+	// 			tempVMatrix[i][j] = reward;
+	// 			actionMatrix[i][j] = 3;
+	// 		}
+	// 	}
+	// }
 
 	VMatrix = tempVMatrix;
 
@@ -778,7 +780,7 @@ string Game::numToAction (int action) {
 
 void Game::printAction () {
 
-	for (int i = 0; i <= 32; i++) {
+	for (int i = 0; i <= 37; i++) {
 		if (i <= 14) {
 			cout << i+5 << "\t";
 		}
@@ -791,12 +793,14 @@ void Game::printAction () {
 		else if (i == 32) {
 			cout << "AA" << "\t";
 		}
+		else
+			cout << "\t";
 		cout << "\t";
 		
-		cout << numToAction(actionMatrix[i][0]) << ": " << VMatrix[i][0] << "\t\t";
+		cout <</** numToAction(actionMatrix[i][0]) << ": " << */ VMatrix[i][0]/** << "\t\t" */;
 		
 		for (int j = 1; j < 10; j++) {
-			cout << " " << numToAction(actionMatrix[i][j]) << ": " << VMatrix[i][j] << "\t\t";
+			cout << " " << /**numToAction(actionMatrix[i][j]) << ": " << */VMatrix[i][j]/** << "\t\t" */;
 		}
 		cout << endl;
 	}
