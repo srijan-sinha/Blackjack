@@ -25,9 +25,18 @@ void Game::initVMatrix () {
 
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
-			tempVMatrix[i][j] = -10000;
+			// tempVMatrix[i][j] = double[2];
+			tempVMatrix[i][j] = -100000;
 		}
 	}
+
+	// for (int i = 0; i < 38; i++) {
+	// 	for (int j = 0; j < 10; j++) {
+	// 		for (int k = 0; k < 2; k++) {
+	// 			tempVMatrix[i][j][k] = -100000;
+	// 		}
+	// 	}
+	// }
 
 	VMatrix = tempVMatrix;
 
@@ -484,14 +493,18 @@ double Game::calcStandingReward (int statePlayer, int stateDealer) {
 		else {
 
 			reward -= calcStateProb(stateDealer, 33);
-			for (int i = 0; i < 33; i++) {
-				reward += calcStateProb(stateDealer, i);
+			for (int i = 17; i < 21; i++) {
+				reward += probScore(stateDealer, i);
 			}
 
-			for(int i = 34; i < 38; i++) {
-				if(i != 35 && i != 37)
-					reward += calcStateProb(stateDealer, i);
-			}
+			reward += probScore(stateDealer, 22);
+
+			// for(int i = 34; i < 38; i++) {
+			// 	if(i != 35 && i != 37) {
+			// 		reward += calcStateProb(stateDealer, i);
+			// 		// cout << "State: " << stateDealer << "i: " << i << " " << calcStateProb(stateDealer, i) << endl;
+			// 	}
+			// }
 
 		}
 	
@@ -638,10 +651,10 @@ void Game::updateVMatrix (bool debug) {
 					for (int k = 0; k < 38; k++) {
 						rewardHit += calcTransProb(i,1,k) * VMatrix[k][j];
 						if(i == 0 && j == 0) {
-							cout << "Prob for: " << k << " is: " << calcTransProb(i,1,k) << " and value of given state is: " << VMatrix[k][j] << endl;
+							// cout << "Prob for: " << k << " is: " << calcTransProb(i,1,k) << " and value of given state is: " << VMatrix[k][j] << endl;
 						}
 					}
-					cout << "Hit reward: " << rewardHit << endl;
+					// cout << "Hit reward: " << rewardHit << endl;
 					// cout << "Reward on hit\tfor playerState: " << i << " dealerState: " << j << ": " << rewardHit << endl;
 					// cout << "Reward on stand\tfor playerState: " << i << " dealerState: " << j << ": " << calcStandingReward(i,j) << endl;
 				}
@@ -725,7 +738,7 @@ void Game::valueIteration (int times) {
 		if (i != times - 1)
 			updateVMatrix(false);
 		else
-			updateVMatrix(true);
+			updateVMatrix(false);
 		// printAction();
 	}
 
@@ -735,18 +748,18 @@ void Game::valueIteration (int times) {
 		}
 	}
 
-	// for (int i = 0; i < 38; i++) {
-	// 	for (int j = 0; j < 10; j++) {
-	// 		reward = 0;
-	// 		for (int k = 0; k < 38; k++) {
-	// 			reward += 2 * calcTransProb(i, 3, k) * calcStandingReward(k,j);
-	// 		}
-	// 		if(reward - VMatrix[i][j] > 0.0001) {
-	// 			tempVMatrix[i][j] = reward;
-	// 			actionMatrix[i][j] = 3;
-	// 		}
-	// 	}
-	// }
+	for (int i = 0; i < 38; i++) {
+		for (int j = 0; j < 10; j++) {
+			reward = 0;
+			for (int k = 0; k < 38; k++) {
+				reward += 2 * calcTransProb(i, 3, k) * calcStandingReward(k,j);
+			}
+			if(reward - VMatrix[i][j] > 0.0001) {
+				tempVMatrix[i][j] = reward;
+				actionMatrix[i][j] = 3;
+			}
+		}
+	}
 
 	VMatrix = tempVMatrix;
 
@@ -797,10 +810,10 @@ void Game::printAction () {
 			cout << "\t";
 		cout << "\t";
 		
-		cout <</** numToAction(actionMatrix[i][0]) << ": " << */ VMatrix[i][0]/** << "\t\t" */;
+		cout << numToAction(actionMatrix[i][0])/** << ": " << VMatrix[i][0] << "\t\t" */;
 		
 		for (int j = 1; j < 10; j++) {
-			cout << " " << /**numToAction(actionMatrix[i][j]) << ": " << */VMatrix[i][j]/** << "\t\t" */;
+			cout << " " << numToAction(actionMatrix[i][j])/** << ": " << VMatrix[i][j] << "\t\t" */;
 		}
 		cout << endl;
 	}

@@ -15,8 +15,49 @@ int main(int argc, char** argv)
     // mgame->printTable();
     // mgame->filleVMatrix();
     // mgame->printAction();
-    mgame->valueIteration(0);
+    mgame->valueIteration(10);
     mgame->printAction();
+    // double sum = 0;
+    // double sum2 = 0;
+    // for (int j = 0; j < 10; j++) {
+    // 	sum = 0;
+    // 	sum2 = 0;
+	   //  for (int i = 0; i < 38; i++) {
+	   //  	// cout<< i << " " << mgame->calcStateProb(9,i)<<endl;
+	   //  	sum += (mgame->calcStateProb(j,i)) * (mgame->calcFinalScore(i, 21));
+	   //  }
+    // 	cout << "SUM: " << sum << endl;
+    // }
+
+    // double sum1 = 0;
+    // for (int i = 0; i < 10; i++) {
+    // 	cout << i+2 << " ";
+    // 	sum1 = 0;
+    // 	for (int j = 17; j <= 22; j++) {
+    // 		cout << mgame->calcFinalScore(i, j) << " ";
+    // 		sum1 += mgame->calcFinalScore(i, j);
+    // 	}
+    // 	// cout << endl;
+    // 	cout << sum1 << endl;
+    // }
+
+    // cout << mgame->calcStateProb(5,i) << endl;
+
+    // cout << endl << endl << mgame->calcFinalScore(9, 17) << endl;
+    // sum += mgame->calcFinalScore(9, 17);
+    // sum += mgame->calcFinalScore(9, 18);
+    // sum += mgame->calcFinalScore(9, 19);
+    // sum += mgame->calcFinalScore(9, 20);
+    // sum += mgame->calcFinalScore(9, 21);
+    // sum += mgame->calcFinalScore(9, 22);
+    // cout << mgame->calcFinalScore(9, 18) << endl;
+    // cout << mgame->calcFinalScore(9, 19) << endl;
+    // cout << mgame->calcFinalScore(9, 20) << endl;
+    // cout << mgame->calcFinalScore(9, 21) << endl;
+    // cout << mgame->calcFinalScore(9, 22) << endl;
+    // cout << "Sum: "<< sum << endl;
+
+    // cout << "Sum: " << sum << endl;
     // cout << "5 " << mgame->calcStandingReward(0, 0) << endl;
 	// cout << "6 " << mgame->calcStandingReward(1, 0) << endl;
  //    cout << "7 " << mgame->calcStandingReward(2, 0) << endl;
@@ -72,7 +113,7 @@ int main(int argc, char** argv)
     // }
 /********************
 */
-	cout << mgame->calcStandingReward(0, 0) << endl;
+	// cout << mgame->calcStandingReward(0, 0) << endl;
 	// if (0.0 - std::numeric_limits<int>::min() > 0.00001)
 	// 	cout << "yo" << endl;
 	// else {
