@@ -636,6 +636,9 @@ void Game::updateVMatrix (bool debug) {
 					rewardHit = 0;
 					for (int k = 0; k < 38; k++) {
 						rewardHit += calcTransProb(i,1,k) * VMatrix[k][j];
+						if(i == 0 && j == 0) {
+							cout << "Prob for: " << k << " is: " << calcTransProb(i,1,k) << " and value of given state is: " << VMatrix[k][j] << endl;
+						}
 					}
 					// cout << "Reward on hit\tfor playerState: " << i << " dealerState: " << j << ": " << rewardHit << endl;
 					// cout << "Reward on stand\tfor playerState: " << i << " dealerState: " << j << ": " << calcStandingReward(i,j) << endl;
