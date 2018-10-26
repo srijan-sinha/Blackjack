@@ -28,7 +28,7 @@ class Game {
 		double calcFinalState(int dealerStateInitial, int dealerStateFinal);	//nocheck			// Probability that after dealer stands he reaches the dealerStateFinal from dealerStateInitial (both cards known).
 		double calcFinalScore(int dealerStateInitial, int handValue);			//checkedlogically	// Probability that dealer starting in given fully know state ends up with given hand value.
 		double probScore(int dealerStateHidden, int handValue);					//checkedlogically	// Probability that dealer starting in given partially hidden state ends up with given hand value.
-		double calcStandingReward(int statePlayer, int stateDealer);			//nocheck			// Expected reward obtained by the player if he stands in a given stand.
+		double calcStandingReward(int statePlayer, int stateDealer);			//checked			// Expected reward obtained by the player if he stands in a given stand.
 		int valueHand(int state);												//checked			// Value of the current hand.
 		void fillTable();														//checked			// 
 		void updateTable();														//checkedlogically	//
@@ -39,7 +39,7 @@ class Game {
 		Game();
 		Game(double pFace);
 		void fillVMatrix();														//checked
-		void updateVMatrix();													//nocheck
+		void updateVMatrix(bool debug);											//nocheck
 		void valueIteration(int times);											//nocheck
 		string numToAction(int action);											//checked
 		void printAction();														//checked
@@ -61,6 +61,11 @@ states
 36		-> 	Busted	
 37		-> A10 Non Blackjack
 */	
+/**
+new states
+0-14	->	5-19 // only two cards
+
+15-29	->	5-
 
 /**
 dealer states

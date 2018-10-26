@@ -13,7 +13,7 @@ int main(int argc, char** argv)
     mgame->fillTable();
     mgame->updateTable();
     // mgame->printTable();
-    // mgame->fillVMatrix();
+    // mgame->filleVMatrix();
     // mgame->printAction();
     mgame->valueIteration(10);
     mgame->printAction();

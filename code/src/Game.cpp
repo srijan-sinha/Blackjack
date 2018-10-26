@@ -588,7 +588,7 @@ bool checkGreater(double d1, double d2) {
 	return false;
 }
 
-void Game::updateVMatrix () {
+void Game::updateVMatrix (bool debug) {
 
 	double ** tempVMatrix = new double*[38];
 	double rewardSplit = 0;
@@ -641,54 +641,63 @@ void Game::updateVMatrix () {
 					// cout << "Reward on stand\tfor playerState: " << i << " dealerState: " << j << ": " << calcStandingReward(i,j) << endl;
 				}
 			}
-			bool debug=false;
+
+			if(debug) cout << "For player: " << i << " dealer: " << j << " rewardHit: " << rewardHit << endl;
+			if(debug) cout << "For player: " << i << " dealer: " << j << " rewardStand: " << rewardStand << endl;
+			if(debug) cout << "For player: " << i << " dealer: " << j << " rewardSplit: " << rewardSplit << endl;
+
 			if (i >= 23 && i <= 32) {
 				if (checkGreater(rewardHit, rewardSplit) && checkGreater(rewardHit, rewardStand)) {
 					tempVMatrix[i][j] = rewardHit;
 					actionMatrix[i][j] = 1;
-					if(debug) cout << "here1" << endl;
+					// if(debug) cout << "For player: " << i << " dealer: " << j << "rewardHit: " << rewardHit << endl;
 				}
 				else if (checkGreater(rewardStand, rewardSplit) && checkGreater(rewardStand, rewardHit)) {
 					tempVMatrix[i][j] = rewardStand;
 					actionMatrix[i][j] = 2;
-					if(debug) cout << "here2" << endl;
+					// if(debug) cout << "For player: " << i << " dealer: " << j << " rewardStand: " << rewardStand << endl;
 				}
 				else {
 					tempVMatrix[i][j] = rewardSplit;
 					actionMatrix[i][j] = 4;
-					if(debug) cout << "here3" << endl;
+					// if(debug) cout << "For player: " << i << " dealer: " << j << " rewardSplit: " << rewardSplit << endl;
 				}
 			}
 			else {
 				if (checkGreater(rewardHit, rewardStand)) {
 					tempVMatrix[i][j] = rewardHit;
 					actionMatrix[i][j] = 1;
-					if(debug) cout << "here4" << endl;
+					// if(debug) cout << "For player: " << i << " dealer: " << j << " rewardHit: " << rewardHit << endl;
 				}
 				else {
 					tempVMatrix[i][j] = rewardStand;
 					actionMatrix[i][j] = 2;
-					if(debug) cout << "here5" << endl;
+					// if(debug) cout << "For player: " << i << " dealer: " << j << " rewardStand: " << rewardStand << endl;
 				}
 			}
 		}
+		if(debug) cout << endl;
 	}
 	int diff=0;
-	for(int i=0;i<38;i++){
-		for(int j=0;j<10;j++){
+	int i = 0;
+	int j = 0;
+	cout << tempVMatrix[i][j] << endl;
+	// for(int i=0;i<38;i++){
+		// for(int j=0;j<10;j++){
+
 			if(abs(VMatrix[i][j]- tempVMatrix[i][j]) > 0.0001){
 				diff++;
 			}
-		}
-	}
+		// }
+	// }
 	cout << "number of values changed were : "<<diff<<endl;
 
-	VMatrix = tempVMatrix;
+	this->VMatrix = tempVMatrix;
 
 	diff=0;
-	for(int i=0;i<38;i++){
-		for(int j=0;j<10;j++){
-			if(abs(VMatrix[i][j]- tempVMatrix[i][j]) > 0.0001){
+	for(int k=0;k<38;k++){
+		for(int l=0;l<10;l++){
+			if(abs(VMatrix[k][l]- tempVMatrix[k][l]) > 0.0001){
 				diff++;
 			}
 		}
@@ -707,15 +716,18 @@ void Game::valueIteration (int times) {
 		tempVMatrix[i] = new double[10];
 	}
 
+	for (int i = 0; i < times; i++) {
+		if (i != times - 1)
+			updateVMatrix(false);
+		else
+			updateVMatrix(true);
+		// printAction();
+	}
+
 	for (int i = 0; i < 38; i++) {
 		for (int j = 0; j < 10; j++) {
 			tempVMatrix[i][j] = VMatrix[i][j];
 		}
-	}
-
-	for (int i = 0; i < times; i++) {
-		updateVMatrix();
-		// printAction();
 	}
 
 	for (int i = 0; i < 38; i++) {
@@ -778,10 +790,10 @@ void Game::printAction () {
 		}
 		cout << "\t";
 		
-		cout << numToAction(actionMatrix[i][0])/** << ": " << VMatrix[i][0] << "\t\t"*/;
+		cout << numToAction(actionMatrix[i][0]) << ": " << VMatrix[i][0] << "\t\t";
 		
 		for (int j = 1; j < 10; j++) {
-			cout << " " << numToAction(actionMatrix[i][j])/** << ": " << VMatrix[i][j] << "\t\t"*/;
+			cout << " " << numToAction(actionMatrix[i][j]) << ": " << VMatrix[i][j] << "\t\t";
 		}
 		cout << endl;
 	}
